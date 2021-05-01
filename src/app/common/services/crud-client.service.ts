@@ -21,7 +21,7 @@ export interface Operation<T> {
 }
 
 export class ToDoListsGet implements Operation<NamedEntity[]> {
-  public operationType: OperationType.TO_DO_LISTS_GET; // TODO Paul Bauknecht 01 05 2021: iS THIS NEEDED?
+  public operationType = OperationType.TO_DO_LISTS_GET; // TODO Paul Bauknecht 01 05 2021: iS THIS NEEDED?
 
   constructor(
     public callback: (toDoLists: NamedEntity[]) => void,
@@ -35,6 +35,7 @@ export class FiFo<E> {
 
   public add(el: E) {
     this.elements.push(el);
+    console.log('Fifo.add: ', this.elements);
   }
 
   public peekCur(): E {
@@ -46,6 +47,7 @@ export class FiFo<E> {
   }
 
   public isEmpty(): boolean {
+    console.log('Fifo.isEmpty: ', this.elements);
     return this.elements.length === 0;
   }
 
@@ -76,19 +78,25 @@ export class CrudClient {
   }
 
   private async sync() {
+    console.log('sync()');
     if (this.fiFo.isNotEmpty()) {
+      console.log('fiFo.isNotEmpty');
       const operation = this.fiFo.peekCur();
       if (operation.operationType === OperationType.TO_DO_LISTS_GET) {
+        console.log('issuing post request');
         this.httpClient
           .post(TO_DO_LISTS_ENDPOINT_URL, operation)
           .pipe(
-            take(1)
+            take(1) // TODO Paul Bauknecht 01 05 2021: Error handling: In case of error call syncAgainAfterInterval
           )
           .subscribe((snapshot: StateSnapshot) => {
+            console.log('success! Got State: ', snapshot);
             this.fiFo.popCur(); // TODO Paul Bauknecht 01 05 2021: We don't need the operationId here. Maybe remove it?
             this.sync();
             operation.callback(snapshot.toDoLists);
           });
+      } else {
+        throw new Error('unknown operation type: ' + operation.operationType);
       }
     } else {
       this.syncAgainAfterInterval();
@@ -96,6 +104,7 @@ export class CrudClient {
   }
 
   public syncAgainAfterInterval() {
+    console.log('syncAgainAfterInterval');
     timer(SYNC_INTERVAL_MS).subscribe(
       () => this.sync()
     );
