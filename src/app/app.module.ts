@@ -6,7 +6,6 @@ import { AppComponent } from './app.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-import { ToDoListPageComponent } from './to-do-list-page/to-do-list-page.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -18,28 +17,19 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSpinner, MatDialogModule } from '@angular/material';
 import { SpinnerOverlayService } from './common/services/spinner-overlay.service';
 import { CrudClient } from './common/services/crud-client.service';
-import { OverlayModule } from '@angular/cdk/overlay'
-import { FavouriteEinkaufItems } from './favourite-einkauf-items/favourite-einkauf-items.component';
+import { OverlayModule } from '@angular/cdk/overlay';
 import { ConfirmationDialogComponent } from './common/confirmation-dialog/confirmation-dialog.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { ErrorHandler } from './common/services/error-handler.service';
-import { DragDropListComponent } from './to-do-list-page/drag-drop-list/drag-drop-list.component';
-import { ToDoUiComponent } from './to-do-list-page/drag-drop-list/to-do-ui/to-do-ui.component';
-import { ToDoEditorComponent } from './to-do-list-page/drag-drop-list/to-do-ui/to-do-editor/to-do-editor.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    ToDoListPageComponent,
-    DragDropListComponent,
     ToDoListSelectionComponent,
     ItemAdderComponent,
     StopClickPropagation,
     DeleteButtonComponent,
-    FavouriteEinkaufItems,
     ConfirmationDialogComponent,
-    ToDoUiComponent,
-    ToDoEditorComponent
   ],
   imports: [
     DragDropModule,
@@ -63,9 +53,9 @@ import { ToDoEditorComponent } from './to-do-list-page/drag-drop-list/to-do-ui/t
   bootstrap: [
     AppComponent,
     MatSpinner,
-    FavouriteEinkaufItems,
+    // FavouriteEinkaufItems, TODO Paul Bauknecht 01 05 2021: for some reason these components were in bootstrap
     ConfirmationDialogComponent,
-    ToDoEditorComponent
+    // ToDoEditorComponent
   ]
 })
 export class AppModule { }
