@@ -1,9 +1,9 @@
-import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
-import { NamedEntity } from '../to-do-list-page/model/named-entity.model';
-import { PLACEHOLDER_ADD_NEW_TO_DO_LIST } from '../common/constants';
-import { CrudClient } from '../common/services/crud-client.service';
-import { MatDialog } from '@angular/material';
-import { ConfirmationDialogComponent } from '../common/confirmation-dialog/confirmation-dialog.component';
+import {Component, OnInit, Output, EventEmitter, Input} from '@angular/core';
+import {NamedEntity} from '../to-do-list-page/model/named-entity.model';
+import {PLACEHOLDER_ADD_NEW_TO_DO_LIST} from '../common/constants';
+import {CrudClient} from '../common/services/crud-client.service';
+import {MatDialog} from '@angular/material';
+import {ConfirmationDialogComponent} from '../common/confirmation-dialog/confirmation-dialog.component';
 
 
 @Component({
@@ -12,10 +12,10 @@ import { ConfirmationDialogComponent } from '../common/confirmation-dialog/confi
   styleUrls: ['./to-do-list-selection.component.css']
 })
 export class ToDoListSelectionComponent implements OnInit {
-  
+
   @Input() selectedToDoList: NamedEntity;
   @Output() selectToDoList = new EventEmitter<NamedEntity>();
-  
+
   readonly ITEM_ADDER_PLACEHOLDER = PLACEHOLDER_ADD_NEW_TO_DO_LIST;
   toDoLists: NamedEntity[] = [];
 
@@ -26,7 +26,7 @@ export class ToDoListSelectionComponent implements OnInit {
     this.fetchToDoLists = this.fetchToDoLists.bind(this);
     this.deleteToDoList = this.deleteToDoList.bind(this);
   }
-  
+
   ngOnInit(): void {
     this.fetchToDoLists();
   }
@@ -49,14 +49,14 @@ export class ToDoListSelectionComponent implements OnInit {
 
   // TODO: Add error toast, if list or to do can't be found
   onClickDeleteButton(toDoList: NamedEntity) {
-    this.dialogService.open(ConfirmationDialogComponent, { data: { text: `"${toDoList.name}" wirklich löschen?`} })
+    this.dialogService.open(ConfirmationDialogComponent, {data: {text: `"${toDoList.name}" wirklich löschen?`}})
       .afterClosed()
       .subscribe(confirmed => {
           if (confirmed) {
             this.deleteToDoList(toDoList);
           }
         }
-      )
+      );
   }
 
   private deleteToDoList(toDoList: NamedEntity) {

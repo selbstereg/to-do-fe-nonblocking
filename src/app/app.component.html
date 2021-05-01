@@ -1,22 +1,20 @@
 <mat-sidenav-container>
-    <mat-sidenav position="end" [(opened)]="sideNavOpened">
-        <to-do-list-selection
-            *ngIf="sideNavOpened"
-            [selectedToDoList]="selectedToDoList"
-            (selectToDoList)="onSelectToDoList($event)"
-        >
-        </to-do-list-selection>
-    </mat-sidenav>
-    <mat-sidenav-content>
-        <p class="list-title">{{ listTitle }}
-            <button class="float-right to-do-list-selection-button" (click)="openSideNav()">
-                <fa-icon [icon]="faBars"></fa-icon>
-            </button>
-        </p>
-        <to-do-list-page
-            *ngIf="selectedToDoList"
-            [selectedToDoList]="selectedToDoList"
-        >
-        </to-do-list-page>
-    </mat-sidenav-content>
+  <mat-sidenav position="end" [(opened)]="sideNavOpened">
+    <to-do-list-selection
+      *ngIf="sideNavOpened"
+      [selectedToDoList]="selectedToDoList"
+      (selectToDoList)="onSelectToDoList($event)"
+    >
+    </to-do-list-selection>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <p class="list-title">{{ listTitle }}
+      <button class="float-right to-do-list-selection-button" (click)="openSideNav()">
+        <fa-icon [icon]="faBars"></fa-icon>
+      </button>
+    </p>
+    <p>
+      Lorem ipsum usw.
+    </p>
+  </mat-sidenav-content>
 </mat-sidenav-container>
