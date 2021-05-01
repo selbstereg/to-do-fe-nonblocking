@@ -34,8 +34,7 @@ export class ToDoListSelectionComponent implements OnInit {
   fetchToDoLists() {
     this.crudClient.fetchToDoLists(
       new ToDoListsGet(
-        (toDoLists: NamedEntity[]) => this.toDoLists = toDoLists,
-        'op1'
+        (toDoLists: NamedEntity[]) => this.toDoLists = toDoLists
       )
     );
   }

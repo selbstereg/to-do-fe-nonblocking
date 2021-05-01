@@ -1,14 +1,16 @@
 import {timer, Subscription} from 'rxjs';
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {TO_DO_LISTS_ENDPOINT_URL} from '../constants';
+import {SPINNER_DEBOUNCE_TIME_IN_MILLIS, TO_DO_LISTS_ENDPOINT_URL} from '../constants';
 import {Observable} from 'rxjs';
 import {SpinnerOverlayService} from './spinner-overlay.service';
 import {NamedEntity} from 'src/app/to-do-list-page/model/named-entity.model';
 import {ErrorHandler} from './error-handler.service';
 import {take} from 'rxjs/operators';
 import {StateSnapshot} from '../../to-do-list-page/model/state-snapshot';
+import {DebounceTimer} from '../utils/debounce-timer';
 
+import uuidv4 from 'uuid/v4';
 
 export enum OperationType {
   TO_DO_LISTS_GET
@@ -16,17 +18,18 @@ export enum OperationType {
 
 export interface Operation<T> {
   operationType: OperationType;
-  operationId: string;
+  operationId: string; // Needed, so BE can decide, if it already processed the operation.
   callback: (arg: T) => void;
 }
 
 export class ToDoListsGet implements Operation<NamedEntity[]> {
   public operationType = OperationType.TO_DO_LISTS_GET; // TODO Paul Bauknecht 01 05 2021: iS THIS NEEDED?
+  public operationId: string;
 
   constructor(
     public callback: (toDoLists: NamedEntity[]) => void,
-    public operationId: string
   ) {
+    this.operationId = uuidv4();
   }
 }
 
@@ -60,8 +63,7 @@ const SYNC_INTERVAL_MS = 5000;
 
 @Injectable()
 export class CrudClient {
-
-  private isSyncing = false;
+  private debounceTimer: DebounceTimer = new DebounceTimer(SYNC_INTERVAL_MS);
   private fiFo: FiFo<Operation<any>> = new FiFo();
 
   constructor(
@@ -74,10 +76,10 @@ export class CrudClient {
 
   public startSync() {
     this.sync();
-    this.isSyncing = true;
   }
 
-  private async sync() {
+  private sync() {
+    this.debounceTimer.stop();
     console.log('sync()');
     if (this.fiFo.isNotEmpty()) {
       console.log('fiFo.isNotEmpty');
@@ -91,7 +93,7 @@ export class CrudClient {
           )
           .subscribe((snapshot: StateSnapshot) => {
             console.log('success! Got State: ', snapshot);
-            this.fiFo.popCur(); // TODO Paul Bauknecht 01 05 2021: We don't need the operationId here. Maybe remove it?
+            this.fiFo.popCur();
             this.sync();
             operation.callback(snapshot.toDoLists);
           });
@@ -105,15 +107,14 @@ export class CrudClient {
 
   public syncAgainAfterInterval() {
     console.log('syncAgainAfterInterval');
-    timer(SYNC_INTERVAL_MS).subscribe(
-      () => this.sync()
-    );
+    this.debounceTimer.start(() => this.sync());
   }
 
 
   // READ
   public fetchToDoLists(toDoListsGet: ToDoListsGet) {
     this.fiFo.add(toDoListsGet);
+    this.sync();
   }
 
   //

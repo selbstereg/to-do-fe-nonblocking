@@ -28,8 +28,7 @@ export class AppComponent implements OnInit {
               ? toDoLists[0]
               : { name: 'Keine Listen gefunden', id: null };
           this.setSelectedToDoList(toDoList);
-        },
-        'opId1'
+        }
       )
     );
   }
