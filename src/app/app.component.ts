@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {faBars} from '@fortawesome/free-solid-svg-icons';
 import {NamedEntity} from './to-do-list-page/model/named-entity.model';
-import {CrudClient} from './common/services/crud-client.service';
+import {CrudClient, ToDoListsGet} from './common/services/crud-client.service';
 
 @Component({
   selector: 'app-root',
@@ -19,14 +19,18 @@ export class AppComponent implements OnInit {
 
   // TODO Paul Bauknecht 19.04.2020: Verbessere verhalten, wenn es noch keine Listen gibt oder die letzte gelöscht wurde
   ngOnInit(): void {
-    this.crudClient.fetchToDoLists().subscribe(
-      (toDoLists: NamedEntity[]) => {
-        const toDoList: NamedEntity =
-          toDoLists.length
-            ? toDoLists[0]
-            : { name: 'Keine Listen gefunden', id: null };
-        this.setSelectedToDoList(toDoList);
-      }
+    this.crudClient.startSync();
+    this.crudClient.fetchToDoLists(
+      new ToDoListsGet(
+        (toDoLists: NamedEntity[]) => {
+          const toDoList: NamedEntity =
+            toDoLists.length
+              ? toDoLists[0]
+              : { name: 'Keine Listen gefunden', id: null };
+          this.setSelectedToDoList(toDoList);
+        },
+        'opId1'
+      )
     );
   }
 
