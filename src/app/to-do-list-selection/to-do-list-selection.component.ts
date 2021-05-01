@@ -1,7 +1,7 @@
 import {Component, OnInit, Output, EventEmitter, Input} from '@angular/core';
-import {NamedEntity} from '../to-do-list-page/model/named-entity.model';
+import {NamedEntity, ToDoListsGet} from '../to-do-list-page/model/to-do-list.model';
 import {PLACEHOLDER_ADD_NEW_TO_DO_LIST} from '../common/constants';
-import {CrudClient, ToDoListsGet} from '../common/services/crud-client.service';
+import {Synchronizer} from '../common/operation/synchronizer.service';
 import {MatDialog} from '@angular/material';
 import {ConfirmationDialogComponent} from '../common/confirmation-dialog/confirmation-dialog.component';
 
@@ -20,7 +20,7 @@ export class ToDoListSelectionComponent implements OnInit {
   toDoLists: NamedEntity[] = [];
 
   constructor(
-    private crudClient: CrudClient,
+    private synchronizer: Synchronizer,
     private dialogService: MatDialog
   ) {
     this.fetchToDoLists = this.fetchToDoLists.bind(this);
@@ -32,7 +32,7 @@ export class ToDoListSelectionComponent implements OnInit {
   }
 
   fetchToDoLists() {
-    this.crudClient.fetchToDoLists(
+    this.synchronizer.fetchToDoLists(
       new ToDoListsGet(
         (toDoLists: NamedEntity[]) => this.toDoLists = toDoLists
       )
@@ -44,7 +44,7 @@ export class ToDoListSelectionComponent implements OnInit {
   }
 
   onAddToDoList(listName: string) {
-    // this.crudClient.addToDoList(listName).subscribe(
+    // this.synchronizer.addToDoList(listName).subscribe(
     //   (body: NamedEntity) => this.selectToDoList.emit(body)
     // );
   }
@@ -62,7 +62,7 @@ export class ToDoListSelectionComponent implements OnInit {
   }
 
   private deleteToDoList(toDoList: NamedEntity) {
-    // this.crudClient.deleteToDoList(toDoList.id).subscribe(
+    // this.synchronizer.deleteToDoList(toDoList.id).subscribe(
     //   this.fetchToDoLists,
     //   this.fetchToDoLists
     // );

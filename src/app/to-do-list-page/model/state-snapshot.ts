@@ -1,4 +1,4 @@
-import {NamedEntity} from './named-entity.model';
+import {NamedEntity} from './to-do-list.model';
 
 export interface StateSnapshot {
   operationId: string;

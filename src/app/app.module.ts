@@ -15,12 +15,11 @@ import { StopClickPropagation } from './common/stop-click-propagation';
 import { DeleteButtonComponent } from './common/delete-button/delete-button.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSpinner, MatDialogModule } from '@angular/material';
-import { SpinnerOverlayService } from './common/services/spinner-overlay.service';
-import { CrudClient } from './common/services/crud-client.service';
+import { Synchronizer } from './common/operation/synchronizer.service';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { ConfirmationDialogComponent } from './common/confirmation-dialog/confirmation-dialog.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { ErrorHandler } from './common/services/error-handler.service';
+import { ErrorHandler } from './common/error/error-handler.service';
 
 @NgModule({
   declarations: [
@@ -46,8 +45,7 @@ import { ErrorHandler } from './common/services/error-handler.service';
     MatSnackBarModule
   ],
   providers: [
-    SpinnerOverlayService,
-    CrudClient,
+    Synchronizer,
     ErrorHandler
   ],
   bootstrap: [

@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {faBars} from '@fortawesome/free-solid-svg-icons';
-import {NamedEntity} from './to-do-list-page/model/named-entity.model';
-import {CrudClient, ToDoListsGet} from './common/services/crud-client.service';
+import {NamedEntity, ToDoListsGet} from './to-do-list-page/model/to-do-list.model';
+import {Synchronizer} from './common/operation/synchronizer.service';
 
 @Component({
   selector: 'app-root',
@@ -14,13 +14,12 @@ export class AppComponent implements OnInit {
   sideNavOpened = false;
   listTitle = '';
 
-  constructor(private crudClient: CrudClient) {
+  constructor(private synchronizer: Synchronizer) {
   }
 
   // TODO Paul Bauknecht 19.04.2020: Verbessere verhalten, wenn es noch keine Listen gibt oder die letzte gelöscht wurde
   ngOnInit(): void {
-    this.crudClient.startSync();
-    this.crudClient.fetchToDoLists(
+    this.synchronizer.fetchToDoLists(
       new ToDoListsGet(
         (toDoLists: NamedEntity[]) => {
           const toDoList: NamedEntity =
