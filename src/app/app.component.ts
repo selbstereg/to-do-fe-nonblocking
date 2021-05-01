@@ -1,7 +1,7 @@
-import { Component, ChangeDetectorRef, OnInit } from '@angular/core';
-import { faBars } from '@fortawesome/free-solid-svg-icons';
-import { NamedEntity } from './to-do-list-page/model/named-entity.model';
-import { CrudClient } from './common/services/crud-client.service';
+import {Component, OnInit} from '@angular/core';
+import {faBars} from '@fortawesome/free-solid-svg-icons';
+import {NamedEntity} from './to-do-list-page/model/named-entity.model';
+import {CrudClient} from './common/services/crud-client.service';
 
 @Component({
   selector: 'app-root',
@@ -13,7 +13,7 @@ export class AppComponent implements OnInit {
   selectedToDoList: NamedEntity = null;
   sideNavOpened = false;
   listTitle = '';
-  
+
   constructor(private crudClient: CrudClient) {
   }
 
@@ -24,8 +24,8 @@ export class AppComponent implements OnInit {
         const toDoList: NamedEntity =
           toDoLists.length
             ? toDoLists[0]
-            : { name: 'Keine Listen gefunden', id: null }
-        this.setSelectedToDoList(toDoList)
+            : { name: 'Keine Listen gefunden', id: null };
+        this.setSelectedToDoList(toDoList);
       }
     );
   }

@@ -42,30 +42,30 @@ export class ToDoListSelectionComponent implements OnInit {
   }
 
   onAddToDoList(listName: string) {
-    this.crudClient.addToDoList(listName).subscribe(
-      (body: NamedEntity) => this.selectToDoList.emit(body)
-    );
+    // this.crudClient.addToDoList(listName).subscribe(
+    //   (body: NamedEntity) => this.selectToDoList.emit(body)
+    // );
   }
 
   // TODO: Add error toast, if list or to do can't be found
   onClickDeleteButton(toDoList: NamedEntity) {
-    this.dialogService.open(ConfirmationDialogComponent, {data: {text: `"${toDoList.name}" wirklich löschen?`}})
-      .afterClosed()
-      .subscribe(confirmed => {
-          if (confirmed) {
-            this.deleteToDoList(toDoList);
-          }
-        }
-      );
+    // this.dialogService.open(ConfirmationDialogComponent, {data: {text: `"${toDoList.name}" wirklich löschen?`}})
+    //   .afterClosed()
+    //   .subscribe(confirmed => {
+    //       if (confirmed) {
+    //         this.deleteToDoList(toDoList);
+    //       }
+    //     }
+    //   );
   }
 
   private deleteToDoList(toDoList: NamedEntity) {
-    this.crudClient.deleteToDoList(toDoList.id).subscribe(
-      this.fetchToDoLists,
-      this.fetchToDoLists
-    );
-    if (toDoList.id === this.selectedToDoList.id) {
-      this.selectToDoList.emit(this.toDoLists[0]);
-    }
+    // this.crudClient.deleteToDoList(toDoList.id).subscribe(
+    //   this.fetchToDoLists,
+    //   this.fetchToDoLists
+    // );
+    // if (toDoList.id === this.selectedToDoList.id) {
+    //   this.selectToDoList.emit(this.toDoLists[0]);
+    // }
   }
 }

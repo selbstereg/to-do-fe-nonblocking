@@ -18,12 +18,6 @@ export class CrudClient {
     ) {
     }
 
-    // CREATE
-    public addToDoList(listName: string): Observable<NamedEntity> {
-        const request = () => this.httpClient.post(TO_DO_LISTS_ENDPOINT_URL, listName);
-
-        return this.sendRequest(request) as Observable<NamedEntity>;
-    }
 
     // READ
     public fetchToDoLists(): Observable<NamedEntity[]> {
@@ -32,13 +26,21 @@ export class CrudClient {
         return this.sendRequest(request) as Observable<NamedEntity[]>;
     }
 
-    // DELETE
-    public deleteToDoList(toDoListId: number): Observable<NamedEntity> {
-        const url = `${TO_DO_LISTS_ENDPOINT_URL}${toDoListId}`;
-        const request = () => this.httpClient.delete(url);
-
-        return this.sendRequest(request) as Observable<NamedEntity>;
-    }
+  //
+  // // CREATE
+  // public addToDoList(listName: string): Observable<NamedEntity> {
+  //   const request = () => this.httpClient.post(TO_DO_LISTS_ENDPOINT_URL, listName);
+  //
+  //   return this.sendRequest(request) as Observable<NamedEntity>;
+  // }
+  //
+  //   // DELETE
+  //   public deleteToDoList(toDoListId: number): Observable<NamedEntity> {
+  //       const url = `${TO_DO_LISTS_ENDPOINT_URL}${toDoListId}`;
+  //       const request = () => this.httpClient.delete(url);
+  //
+  //       return this.sendRequest(request) as Observable<NamedEntity>;
+  //   }
 
     // private functions
     private sendRequest(request: () => Observable<Object>) {
