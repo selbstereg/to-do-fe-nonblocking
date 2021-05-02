@@ -31,14 +31,6 @@ jest.mock('../utils/debounce-timer', () => {
     })
   };
 });
-// jest.mock('../utils/debounce-timer', () => {
-//     return {
-//       default: {
-//         start: mockStartTimer
-//       }
-//     };
-//   }
-// );
 
 const mockHttpClient = {
   post: jest.fn() // code depends on httpClient.post returning Observable<Object>
