@@ -24,29 +24,48 @@ jest.mock('../utils/debounce-timer');
 const mockHttpClient = {
   post: jest.fn() // code depends on httpClient.post returning Observable<Object>
 };
-
 const mockErrorHandler = jest.fn();
 
-describe('Synchronizer', () => {
-  beforeEach(() => jest.clearAllMocks());
+function mockServerResponse(...responses: StateSnapshot[]) {
+  const responseProvider = jest.fn();
+  responses.forEach(responseBody => responseProvider.mockReturnValueOnce(responseBody));
 
-  it('should sync and invoke callback after successful request', done => {
-    const synchronizer: Synchronizer = new Synchronizer(
+  mockHttpClient.post = jest.fn((_1, _2) => {
+    return timer(50)
+      .pipe(
+        map(_ => responseProvider())
+      );
+  });
+}
+
+function crResponseBody(listNames: string[]): StateSnapshot {
+  return {
+    operationId: 'op-id-1',
+    toDoLists: listNames.map(listName => {
+      return {id: 'uuid-' + listName, name: listName};
+    })
+  };
+}
+
+let synchronizer: Synchronizer;
+
+describe('Synchronizer', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+    synchronizer = new Synchronizer(
       mockHttpClient as any,
       mockErrorHandler as any
     );
+  });
 
-    const responseBody: StateSnapshot = {
-      operationId: 'op-id',
-      toDoLists: [{id: 'list-uuid', name: 'list'}]
-    };
-
-    mockHttpClient.post.mockReturnValue(of(responseBody));
+  it('should sync and invoke callback after successful request', done => {
+    mockHttpClient.post.mockReturnValue(of(crResponseBody(['list'])));
 
     synchronizer.fetchToDoLists(
       new ToDoListsGet(
         (lists) => {
-          console.log(lists);
+          expect(lists.length).toBe(1);
+          expect(lists.map(l => l.name)).toContain('list');
           done();
         }
       )
@@ -54,30 +73,10 @@ describe('Synchronizer', () => {
   });
 
   it('should sync multiple operations', done => {
-    const synchronizer: Synchronizer = new Synchronizer(
-      mockHttpClient as any,
-      mockErrorHandler as any
+    mockServerResponse(
+      crResponseBody(['list-1']),
+      crResponseBody(['list-1', 'list-2'])
     );
-
-    const responseBody1: StateSnapshot = {
-      operationId: 'op-id-1',
-      toDoLists: [{id: 'uuid-list-1', name: 'list-1'}]
-    };
-    const responseBody2: StateSnapshot = {
-      operationId: 'op-id-2',
-      toDoLists: [{id: 'uuid-list-1', name: 'list-1'}, {id: 'uuid-list-2', name: 'list-2'}]
-    };
-
-    const responseProvider = jest.fn();
-    responseProvider.mockReturnValueOnce(responseBody1);
-    responseProvider.mockReturnValueOnce(responseBody2);
-
-    mockHttpClient.post = jest.fn((_1, _2) => {
-      return timer(50).pipe(map(_3 => {
-        console.log('responseProvider: ', responseProvider);
-        return responseProvider();
-      }));
-    });
 
     synchronizer.fetchToDoLists(
       new ToDoListsGet(
