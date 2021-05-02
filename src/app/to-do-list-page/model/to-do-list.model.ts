@@ -2,7 +2,7 @@ import {Operation, OperationType} from '../../common/operation/operation';
 import uuidv4 from 'uuid/v4';
 
 export interface NamedEntity {
-    readonly id: number;
+    readonly id: string;
     name: string;
 }
 
