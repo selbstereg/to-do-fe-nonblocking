@@ -18,6 +18,9 @@ jest.mock('uuid/v4', () => { // TODO Paul Bauknecht 02 05 2021: maybe move this 
 
 jest.mock('../constants');
 
+// mock, because otherwise the sync loop may never stop
+jest.mock('../utils/debounce-timer');
+
 const mockHttpClient = {
   post: jest.fn() // code depends on httpClient.post returning Observable<Object>
 };
@@ -58,7 +61,7 @@ describe('Synchronizer', () => {
 
     const responseBody1: StateSnapshot = {
       operationId: 'op-id-1',
-      toDoLists: [{id: 'uuid-list-1', name: 'list-1'}, {id: 'uuid-list-2', name: 'list-2'}]
+      toDoLists: [{id: 'uuid-list-1', name: 'list-1'}]
     };
     const responseBody2: StateSnapshot = {
       operationId: 'op-id-2',
@@ -98,5 +101,4 @@ describe('Synchronizer', () => {
   });
 
   // should retry upon error
-  // should process multiple
 });

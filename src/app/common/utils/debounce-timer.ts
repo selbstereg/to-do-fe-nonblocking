@@ -1,6 +1,6 @@
 import { timer, Subscription } from 'rxjs';
 
-export class DebounceTimer {
+export default class DebounceTimer {
     private subscription: Subscription = new Subscription;
     private debounceTimeInMilliSeconds: number;
 

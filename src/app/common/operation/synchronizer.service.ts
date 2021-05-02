@@ -4,7 +4,7 @@ import {SYNC_INTERVAL_MS, TO_DO_LISTS_ENDPOINT_URL} from '../constants';
 import {ErrorHandler} from '../error/error-handler.service';
 import {catchError, take} from 'rxjs/operators';
 import {StateSnapshot} from '../../to-do-list-page/model/state-snapshot';
-import {DebounceTimer} from '../utils/debounce-timer';
+import DebounceTimer from '../utils/debounce-timer';
 import {Operation, OperationType} from './operation';
 import {ToDoListsGet} from '../../to-do-list-page/model/to-do-list.model';
 import {FiFo} from './fifo';
