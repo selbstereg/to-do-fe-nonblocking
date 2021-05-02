@@ -12,6 +12,7 @@ import {throwError} from 'rxjs';
 
 @Injectable()
 export class Synchronizer {
+  private requestInProgress = false;
   private debounceTimer: DebounceTimer = new DebounceTimer(SYNC_INTERVAL_MS);
   private fiFo: FiFo<Operation<any>> = new FiFo();
 
@@ -23,7 +24,7 @@ export class Synchronizer {
 
   private sync() {
     this.debounceTimer.stop();
-    if (this.fiFo.isNotEmpty()) {
+    if (this.fiFo.isNotEmpty() && !this.requestInProgress) {
       const operation = this.fiFo.peekCur();
       if (operation.operationType === OperationType.TO_DO_LISTS_GET) {
         this.issueRequest(operation);
@@ -37,19 +38,23 @@ export class Synchronizer {
   }
 
   private issueRequest(operation: Operation<any>) {
+    this.requestInProgress = true;
     this.httpClient
       .post(TO_DO_LISTS_ENDPOINT_URL, operation)
       .pipe(
         catchError(err => {
+          this.requestInProgress = false;
           this.errorHandler.display(err);
           this.syncAgainAfterInterval();
-          return throwError(err);
+          return throwError(err); // TODO Paul Bauknecht 02 05 2021: Is this good for anything?
         }),
         take(1)
       )
       .subscribe((snapshot: StateSnapshot) => {
         this.fiFo.popCur();
+        this.requestInProgress = false;
         this.sync();
+        console.log('snapshot: ', snapshot);
         operation.callback(snapshot.toDoLists);
       });
   }

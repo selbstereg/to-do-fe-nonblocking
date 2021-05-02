@@ -4,7 +4,6 @@ export class FiFo<E> {
 
   public add(el: E) {
     this.elements.push(el);
-    console.log('Fifo.add: ', this.elements);
   }
 
   public peekCur(): E {
@@ -16,7 +15,6 @@ export class FiFo<E> {
   }
 
   public isEmpty(): boolean {
-    console.log('Fifo.isEmpty: ', this.elements);
     return this.elements.length === 0;
   }
 

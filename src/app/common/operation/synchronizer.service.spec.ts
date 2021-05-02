@@ -25,20 +25,20 @@ const mockHttpClient = {
 const mockErrorHandler = jest.fn();
 
 describe('Synchronizer', () => {
+  beforeEach(() => jest.clearAllMocks());
+
   it('should sync and invoke callback after successful request', done => {
     const synchronizer: Synchronizer = new Synchronizer(
       mockHttpClient as any,
       mockErrorHandler as any
     );
 
-    const retVal: StateSnapshot = {
+    const responseBody: StateSnapshot = {
       operationId: 'op-id',
       toDoLists: [{id: 'list-uuid', name: 'list'}]
     };
 
-    mockHttpClient.post = jest.fn((url, body) => {
-      return of(retVal);
-    });
+    mockHttpClient.post.mockReturnValue(of(responseBody));
 
     synchronizer.fetchToDoLists(
       new ToDoListsGet(
@@ -56,19 +56,31 @@ describe('Synchronizer', () => {
       mockErrorHandler as any
     );
 
-    const retVal: StateSnapshot = {
-      operationId: 'op-id',
-      toDoLists: [{id: 'list-uuid', name: 'list'}]
+    const responseBody1: StateSnapshot = {
+      operationId: 'op-id-1',
+      toDoLists: [{id: 'uuid-list-1', name: 'list-1'}, {id: 'uuid-list-2', name: 'list-2'}]
+    };
+    const responseBody2: StateSnapshot = {
+      operationId: 'op-id-2',
+      toDoLists: [{id: 'uuid-list-1', name: 'list-1'}, {id: 'uuid-list-2', name: 'list-2'}]
     };
 
-    mockHttpClient.post = jest.fn((url, body) => {
-      return timer(50).pipe(map(_ => retVal));
+    const responseProvider = jest.fn();
+    responseProvider.mockReturnValueOnce(responseBody1);
+    responseProvider.mockReturnValueOnce(responseBody2);
+
+    mockHttpClient.post = jest.fn((_1, _2) => {
+      return timer(50).pipe(map(_3 => {
+        console.log('responseProvider: ', responseProvider);
+        return responseProvider();
+      }));
     });
 
     synchronizer.fetchToDoLists(
       new ToDoListsGet(
         (lists) => {
-          console.log('first return: ', lists);
+          expect(lists.length).toBe(1);
+          expect(lists.map(l => l.name)).toContain('list-1');
         }
       )
     );
@@ -76,7 +88,9 @@ describe('Synchronizer', () => {
     synchronizer.fetchToDoLists(
       new ToDoListsGet(
         (lists) => {
-          console.log('second return: ', lists);
+          expect(lists.length).toBe(2);
+          expect(lists.map(l => l.name)).toContain('list-1', 'list-2');
+          expect(mockHttpClient.post.mock.calls.length).toBe(2);
           done();
         }
       )
