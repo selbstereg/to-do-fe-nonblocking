@@ -1,8 +1,9 @@
 import {Synchronizer} from './synchronizer.service';
 import {ToDoListsGet} from '../../to-do-list-page/model/to-do-list.model';
-import {of, timer} from 'rxjs';
+import {Observable, of, throwError, timer} from 'rxjs';
 import {StateSnapshot} from '../../to-do-list-page/model/state-snapshot';
-import {map} from 'rxjs/operators';
+import {mergeMap} from 'rxjs/operators';
+import DebounceTimer from '../utils/debounce-timer';
 
 // Mock uuid/v4 because it otherwise leads to type errors
 jest.mock('uuid/v4', () => { // TODO Paul Bauknecht 02 05 2021: maybe move this into a __mocks__ folder beneath node_modules
@@ -15,25 +16,46 @@ jest.mock('uuid/v4', () => { // TODO Paul Bauknecht 02 05 2021: maybe move this 
     }
   };
 });
-
 jest.mock('../constants');
-
 // mock, because otherwise the sync loop may never stop
-jest.mock('../utils/debounce-timer');
+const mockStartTimer = jest.fn();
+const mockStopTimer = jest.fn();
+jest.mock('../utils/debounce-timer', () => {
+  return {
+    __esModule: true,
+    default: jest.fn().mockImplementation(() => {
+      return {
+        start: mockStartTimer,
+        stop: mockStopTimer
+      };
+    })
+  };
+});
+// jest.mock('../utils/debounce-timer', () => {
+//     return {
+//       default: {
+//         start: mockStartTimer
+//       }
+//     };
+//   }
+// );
 
 const mockHttpClient = {
   post: jest.fn() // code depends on httpClient.post returning Observable<Object>
 };
-const mockErrorHandler = jest.fn();
 
-function mockServerResponse(...responses: StateSnapshot[]) {
+const mockErrorHandler = {
+  display: jest.fn()
+};
+
+function mockServerResponse(...responses: Observable<StateSnapshot>[]) {
   const responseProvider = jest.fn();
   responses.forEach(responseBody => responseProvider.mockReturnValueOnce(responseBody));
 
   mockHttpClient.post = jest.fn((_1, _2) => {
     return timer(50)
       .pipe(
-        map(_ => responseProvider())
+        mergeMap(_ => responseProvider())
       );
   });
 }
@@ -74,8 +96,8 @@ describe('Synchronizer', () => {
 
   it('should sync multiple operations', done => {
     mockServerResponse(
-      crResponseBody(['list-1']),
-      crResponseBody(['list-1', 'list-2'])
+      of(crResponseBody(['list-1'])),
+      of(crResponseBody(['list-1', 'list-2']))
     );
 
     synchronizer.fetchToDoLists(
@@ -99,5 +121,29 @@ describe('Synchronizer', () => {
     );
   });
 
-  // should retry upon error
+  it('should retry on error', done => {
+    mockServerResponse(
+      throwError('my error'),
+      of(crResponseBody(['list']))
+    );
+
+    // enable the timer
+    mockStartTimer.mockImplementationOnce((callback) => {
+      timer(50).subscribe(
+        () => callback()
+      );
+    });
+
+    synchronizer.fetchToDoLists(
+      new ToDoListsGet(
+        (lists) => {
+          expect(lists.length).toBe(1);
+          expect(lists.map(l => l.name)).toContain('list');
+          expect(mockErrorHandler.display.mock.calls.length).toBe(1);
+          expect(mockErrorHandler.display.mock.calls[0][0]).toBe('my error');
+          done();
+        }
+      )
+    );
+  });
 });

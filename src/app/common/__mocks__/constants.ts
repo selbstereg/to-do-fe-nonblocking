@@ -1,5 +1,5 @@
 
-export const SYNC_INTERVAL_MS = 5000; // TODO Paul Bauknecht 02 05 2021: make this nicer
+export const SYNC_INTERVAL_MS = 50;
 
 export const TO_DO_LISTS_ENDPOINT_URL = 'test' + '/api/to-do-lists/';
 export const TO_DOS_ENDPOINT_URL = 'test' + '/api/to-dos/';

@@ -41,22 +41,22 @@ export class Synchronizer {
     this.requestInProgress = true;
     this.httpClient
       .post(TO_DO_LISTS_ENDPOINT_URL, operation)
-      .pipe(
-        catchError(err => {
+      .pipe(take(1))
+      .subscribe(
+        (snapshot: StateSnapshot) => {
+          this.fiFo.popCur();
+          this.requestInProgress = false;
+          this.sync();
+          console.log('snapshot: ', snapshot);
+          operation.callback(snapshot.toDoLists);
+        },
+        (err) => {
           this.requestInProgress = false;
           this.errorHandler.display(err);
           this.syncAgainAfterInterval();
-          return throwError(err); // TODO Paul Bauknecht 02 05 2021: Is this good for anything?
-        }),
-        take(1)
+        }
       )
-      .subscribe((snapshot: StateSnapshot) => {
-        this.fiFo.popCur();
-        this.requestInProgress = false;
-        this.sync();
-        console.log('snapshot: ', snapshot);
-        operation.callback(snapshot.toDoLists);
-      });
+    ;
   }
 
   private syncAgainAfterInterval() {
