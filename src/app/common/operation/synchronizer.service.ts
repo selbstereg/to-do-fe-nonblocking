@@ -23,9 +23,7 @@ export class Synchronizer {
 
   private sync() {
     this.debounceTimer.stop();
-    console.log('sync()');
     if (this.fiFo.isNotEmpty()) {
-      console.log('fiFo.isNotEmpty');
       const operation = this.fiFo.peekCur();
       if (operation.operationType === OperationType.TO_DO_LISTS_GET) {
         this.issueRequest(operation);
@@ -33,6 +31,7 @@ export class Synchronizer {
         throw new Error('unknown operation type: ' + operation.operationType);
       }
     } else {
+      // TODO Paul Bauknecht 02 05 2021: Nützt das überhaupt was? Wenn was in den FiFo gepusht wird wird ja eh auch sync() aufgerufen.
       this.syncAgainAfterInterval();
     }
   }
@@ -46,10 +45,9 @@ export class Synchronizer {
           this.syncAgainAfterInterval();
           return throwError(err);
         }),
-        take(1) // TODO Paul Bauknecht 01 05 2021: Error handling: In case of error call syncAgainAfterInterval
+        take(1)
       )
       .subscribe((snapshot: StateSnapshot) => {
-        console.log('success! Got State: ', snapshot);
         this.fiFo.popCur();
         this.sync();
         operation.callback(snapshot.toDoLists);
@@ -57,7 +55,6 @@ export class Synchronizer {
   }
 
   private syncAgainAfterInterval() {
-    console.log('syncAgainAfterInterval');
     this.debounceTimer.start(() => this.sync());
   }
 
