@@ -20,6 +20,7 @@ import { OverlayModule } from '@angular/cdk/overlay';
 import { ConfirmationDialogComponent } from './common/confirmation-dialog/confirmation-dialog.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { ErrorHandler } from './common/error/error-handler.service';
+import {LoggingPageComponent} from './logging/logging-page.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { ErrorHandler } from './common/error/error-handler.service';
     StopClickPropagation,
     DeleteButtonComponent,
     ConfirmationDialogComponent,
+    LoggingPageComponent,
   ],
   imports: [
     DragDropModule,
