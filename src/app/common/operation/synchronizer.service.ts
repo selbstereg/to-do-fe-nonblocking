@@ -1,14 +1,13 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {SYNC_INTERVAL_MS, TO_DO_LISTS_ENDPOINT_URL} from '../constants';
-import {ErrorHandler} from '../error/error-handler.service';
-import {catchError, take} from 'rxjs/operators';
+import {take} from 'rxjs/operators';
 import {StateSnapshot} from '../../to-do-list-page/model/state-snapshot';
 import DebounceTimer from '../utils/debounce-timer';
 import {Operation, OperationType} from './operation';
 import {ToDoListsGet} from '../../to-do-list-page/model/to-do-list.model';
 import {FiFo} from './fifo';
-import {throwError} from 'rxjs';
+import {LoggingService} from '../logging/logging.service';
 
 @Injectable()
 export class Synchronizer {
@@ -18,7 +17,7 @@ export class Synchronizer {
 
   constructor(
     private httpClient: HttpClient,
-    private errorHandler: ErrorHandler
+    private log: LoggingService
   ) {
   }
 
@@ -52,7 +51,7 @@ export class Synchronizer {
         },
         (err) => {
           this.requestInProgress = false;
-          this.errorHandler.display(err);
+          this.log.error(`${err.status} - ${err.message}`);
           this.syncAgainAfterInterval();
         }
       )

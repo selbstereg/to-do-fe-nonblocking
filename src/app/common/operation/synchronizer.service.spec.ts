@@ -4,6 +4,8 @@ import {Observable, of, throwError, timer} from 'rxjs';
 import {StateSnapshot} from '../../to-do-list-page/model/state-snapshot';
 import {mergeMap} from 'rxjs/operators';
 import DebounceTimer from '../utils/debounce-timer';
+import {HttpClient} from '@angular/common/http';
+import {LoggingService} from '../logging/logging.service';
 
 // Mock uuid/v4 because it otherwise leads to type errors
 jest.mock('uuid/v4', () => { // TODO Paul Bauknecht 02 05 2021: maybe move this into a __mocks__ folder beneath node_modules
@@ -36,8 +38,10 @@ const mockHttpClient = {
   post: jest.fn() // code depends on httpClient.post returning Observable<Object>
 };
 
-const mockErrorHandler = {
-  display: jest.fn()
+const mockLoggingService = {
+  error: jest.fn(),
+  warn: jest.fn(),
+  info: jest.fn()
 };
 
 function mockServerResponse(...responses: Observable<StateSnapshot>[]) {
@@ -67,8 +71,8 @@ describe('Synchronizer', () => {
   beforeEach(() => {
     jest.clearAllMocks();
     synchronizer = new Synchronizer(
-      mockHttpClient as any,
-      mockErrorHandler as any
+      mockHttpClient as any as HttpClient,
+      mockLoggingService as any as LoggingService
     );
   });
 
@@ -131,8 +135,6 @@ describe('Synchronizer', () => {
         (lists) => {
           expect(lists.length).toBe(1);
           expect(lists.map(l => l.name)).toContain('list');
-          expect(mockErrorHandler.display.mock.calls.length).toBe(1);
-          expect(mockErrorHandler.display.mock.calls[0][0]).toBe('my error');
           done();
         }
       )

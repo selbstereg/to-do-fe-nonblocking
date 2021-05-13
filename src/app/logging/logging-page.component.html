@@ -1,7 +1,8 @@
 <ul>
   <li
     *ngFor="let log of logs"
+    [ngStyle]="{'background-color': computeColor(log.level)}"
   >
-    {{ log }}
+    {{ log.time.toLocaleTimeString() }} - {{ log.message }}
   </li>
 </ul>
