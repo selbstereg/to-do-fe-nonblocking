@@ -19,11 +19,7 @@ export class LoggingService {
 
   logsSubject = new Subject<LogEntry[]>();
 
-  logs: LogEntry[] = [
-    {level: LogLvl.INFO, message: 'info msg', time: new Date()},
-    {level: LogLvl.WARN, message: 'warn msg', time: new Date()},
-    {level: LogLvl.ERROR, message: 'error msg', time: new Date()},
-  ];
+  logs: LogEntry[] = [];
 
   public subscribe(callback: (logs: LogEntry[]) => void) {
     this.logsSubject.subscribe(callback);

@@ -19,7 +19,6 @@ export class LoggingPageComponent implements OnInit {
     this.log.subscribe(
       logs => this.logs = logs
     );
-    this.log.info('I just subscribed :)');
   }
 
   computeColor(logLevel: LogLvl) {
