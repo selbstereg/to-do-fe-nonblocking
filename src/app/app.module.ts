@@ -21,6 +21,7 @@ import { ConfirmationDialogComponent } from './common/confirmation-dialog/confir
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { ErrorHandler } from './common/error/error-handler.service';
 import {LoggingPageComponent} from './logging/logging-page.component';
+import {LoggingService} from './common/logging/logging.service';
 
 @NgModule({
   declarations: [
@@ -48,7 +49,8 @@ import {LoggingPageComponent} from './logging/logging-page.component';
   ],
   providers: [
     Synchronizer,
-    ErrorHandler
+    ErrorHandler,
+    LoggingService
   ],
   bootstrap: [
     AppComponent,
