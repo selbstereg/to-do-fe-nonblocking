@@ -1,5 +1,5 @@
 import {Synchronizer} from './synchronizer.service';
-import {ToDoListsGet} from '../../to-do-list-page/model/to-do-list.model';
+import {ToDoListsGet} from './operations/to-do-list-get';
 import {Observable, of, throwError, timer} from 'rxjs';
 import {mergeMap} from 'rxjs/operators';
 import {HttpClient} from '@angular/common/http';
@@ -43,8 +43,6 @@ const mockLoggingService = {
   info: jest.fn()
 };
 
-const globState = new GlobState();
-
 function mockServerResponse(...responses: Observable<StateSnapshot>[]) {
   const responseProvider = jest.fn();
   responses.forEach(responseBody => responseProvider.mockReturnValueOnce(responseBody));
@@ -78,88 +76,54 @@ describe('Synchronizer', () => {
     synchronizer = new Synchronizer(
       mockHttpClient as any as HttpClient,
       mockLoggingService as any as LoggingService,
-      globState
+      new GlobState()
     );
   });
 
   it('should sync and invoke callback after successful request', done => {
-    let numCallbackInvocations = 0;
-
-    globState.setLastSeenState(createToDoLists(['list']));
     mockHttpClient.post.mockReturnValue(of(createResponseBody(['list'])));
 
     synchronizer.fetchToDoLists(
       new ToDoListsGet(
         (lists) => {
-          numCallbackInvocations++;
           expect(lists.length).toBe(1);
           expect(lists.map(l => l.name)).toContain('list');
-          if (numCallbackInvocations === 2) {
-            done();
-          }
+          done();
         }
       )
     );
   });
 
   it('should sync multiple operations', done => {
-    let numCallbackInvocations = 0;
-
     mockServerResponse(
       of(createResponseBody(['list-1'])),
       of(createResponseBody(['list-1', 'list-2']))
     );
 
-    globState.setLastSeenState([]);
-
     // first fetch operation
     synchronizer.fetchToDoLists(
       new ToDoListsGet(
         (lists) => {
-          numCallbackInvocations++;
-
-          switch (numCallbackInvocations) {
-            // first callback before server response
-            case 1:
-              expect(lists.length).toBe(0);
-              break;
-            // callback after first server response
-            case 2:
-              expect(lists.length).toBe(1);
-              expect(lists.map(l => l.name)).toContain('list-1');
-              done();
-          }
+          expect(lists.length).toBe(1);
+          expect(lists.map(l => l.name)).toContain('list-1');
         }
       )
     );
-
 
     // second fetch operation
     synchronizer.fetchToDoLists(
       new ToDoListsGet(
         (lists) => {
-          numCallbackInvocations++;
-
-          switch (numCallbackInvocations) {
-            // expect nothing. We don't care, if the first response has arrived yet or not
-            case 3:
-              break;
-            // now the second response has arrived
-            case 4:
-              expect(lists.length).toBe(2);
-              expect(lists.map(l => l.name)).toContain('list-1', 'list-2');
-              expect(mockHttpClient.post.mock.calls.length).toBe(2);
-              done();
-          }
+          expect(lists.length).toBe(2);
+          expect(lists.map(l => l.name)).toContain('list-1', 'list-2');
+          expect(mockHttpClient.post.mock.calls.length).toBe(2);
+          done();
         }
       )
     );
   });
 
   it('should retry on error', done => {
-    let numCallbackInvocations = 0;
-
-    globState.setLastSeenState([]);
     mockServerResponse(
       throwError('my error'),
       of(createResponseBody(['list']))
@@ -175,19 +139,9 @@ describe('Synchronizer', () => {
     synchronizer.fetchToDoLists(
       new ToDoListsGet(
         (lists) => {
-          numCallbackInvocations++;
-
-          switch (numCallbackInvocations) {
-            // first callback before server response
-            case 1:
-              expect(lists.length).toBe(0);
-              break;
-            // second callback after server response
-            case 2:
-              expect(lists.length).toBe(1);
-              expect(lists.map(l => l.name)).toContain('list');
-              done();
-          }
+          expect(lists.length).toBe(1);
+          expect(lists.map(l => l.name)).toContain('list');
+          done();
         }
       )
     );

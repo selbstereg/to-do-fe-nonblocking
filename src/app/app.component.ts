@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {faBars} from '@fortawesome/free-solid-svg-icons';
-import {ToDoListsGet} from './to-do-list-page/model/to-do-list.model';
-import {Synchronizer} from './common/operation/synchronizer.service';
-import {ToDoList} from './common/operation/glob-state.service';
+import {ToDoListsGet} from './common/state/operations/to-do-list-get';
+import {Synchronizer} from './common/state/synchronizer.service';
+import {ToDoList} from './common/state/glob-state.service';
 
 @Component({
   selector: 'app-root',
@@ -16,21 +16,24 @@ export class AppComponent implements OnInit {
   listTitle = '';
 
   constructor(private synchronizer: Synchronizer) {
+    this.selectFirstListIfPresent = this.selectFirstListIfPresent.bind(this);
   }
 
-  // TODO Paul Bauknecht 19.04.2020: Verbessere verhalten, wenn es noch keine Listen gibt oder die letzte gelöscht wurde
   ngOnInit(): void {
     this.synchronizer.fetchToDoLists(
       new ToDoListsGet(
-        (toDoLists: ToDoList[]) => {
-          const toDoList: ToDoList =
-            toDoLists.length
-              ? toDoLists[0]
-              : { name: 'Keine Listen gefunden', id: null };
-          this.setSelectedToDoList(toDoList);
-        }
+        this.selectFirstListIfPresent
       )
     );
+    this.selectFirstListIfPresent(this.synchronizer.getState());
+  }
+
+  private selectFirstListIfPresent(toDoLists: ToDoList[]) {
+    const toDoList: ToDoList =
+      toDoLists.length
+        ? toDoLists[0]
+        : {name: 'Keine Listen gefunden', id: null};
+    this.setSelectedToDoList(toDoList);
   }
 
   openSideNav() {

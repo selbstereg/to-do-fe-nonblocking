@@ -15,14 +15,14 @@ import { StopClickPropagation } from './common/stop-click-propagation';
 import { DeleteButtonComponent } from './common/delete-button/delete-button.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSpinner, MatDialogModule } from '@angular/material';
-import { Synchronizer } from './common/operation/synchronizer.service';
+import { Synchronizer } from './common/state/synchronizer.service';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { ConfirmationDialogComponent } from './common/confirmation-dialog/confirmation-dialog.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { ErrorHandler } from './common/error/error-handler.service';
 import {LoggingPageComponent} from './logging/logging-page.component';
 import {LoggingService} from './common/logging/logging.service';
-import {GlobState} from './common/operation/glob-state.service';
+import {GlobState} from './common/state/glob-state.service';
 
 @NgModule({
   declarations: [

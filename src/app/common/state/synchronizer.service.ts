@@ -3,8 +3,8 @@ import {HttpClient} from '@angular/common/http';
 import {SYNC_INTERVAL_MS} from '../constants';
 import {take} from 'rxjs/operators';
 import DebounceTimer from '../utils/debounce-timer';
-import {Operation} from './operation';
-import {ToDoListsGet} from '../../to-do-list-page/model/to-do-list.model';
+import {Operation} from './operations/operation';
+import {ToDoListsGet} from './operations/to-do-list-get';
 import {FiFo} from './fifo';
 import {LoggingService} from '../logging/logging.service';
 import {GlobState, StateSnapshot, ToDoList} from './glob-state.service';
@@ -40,7 +40,6 @@ export class Synchronizer {
           this.fiFo.popCur();
           this.requestInProgress = false;
           this.sync();
-          console.log('snapshot: ', snapshot);
           this.globState.setLastSeenState(snapshot.toDoLists);
           this.triggerCallback(operation.callback);
         },
@@ -62,15 +61,17 @@ export class Synchronizer {
   public fetchToDoLists(toDoListsGet: ToDoListsGet) {
     this.fiFo.add(toDoListsGet);
     this.sync();
-    this.triggerCallback(toDoListsGet.callback);
   }
 
-
   private triggerCallback(callback: (toDoLists: ToDoList[]) => void) {
+    callback(this.getState());
+  }
+
+  public getState(): ToDoList[] {
     const curState = this.globState.copyLastSeenState();
     this.fiFo.forEach(operation =>
       operation.apply(curState)
     );
-    callback(curState.toDoLists);
+    return curState.toDoLists;
   }
 }

@@ -1,9 +1,9 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {ToDoListsGet} from '../to-do-list-page/model/to-do-list.model';
+import {ToDoListsGet} from '../common/state/operations/to-do-list-get';
 import {PLACEHOLDER_ADD_NEW_TO_DO_LIST} from '../common/constants';
-import {Synchronizer} from '../common/operation/synchronizer.service';
+import {Synchronizer} from '../common/state/synchronizer.service';
 import {MatDialog} from '@angular/material';
-import {ToDoList} from '../common/operation/glob-state.service';
+import {ToDoList} from '../common/state/glob-state.service';
 
 
 @Component({
@@ -37,6 +37,7 @@ export class ToDoListSelectionComponent implements OnInit {
         (toDoLists: ToDoList[]) => this.toDoLists = toDoLists
       )
     );
+    this.toDoLists = this.synchronizer.getState();
   }
 
   onSelect(toDoList: ToDoList) {
