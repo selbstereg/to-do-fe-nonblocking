@@ -22,6 +22,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { ErrorHandler } from './common/error/error-handler.service';
 import {LoggingPageComponent} from './logging/logging-page.component';
 import {LoggingService} from './common/logging/logging.service';
+import {GlobState} from './common/operation/glob-state.service';
 
 @NgModule({
   declarations: [
@@ -50,7 +51,8 @@ import {LoggingService} from './common/logging/logging.service';
   providers: [
     Synchronizer,
     ErrorHandler,
-    LoggingService
+    LoggingService,
+    GlobState
   ],
   bootstrap: [
     AppComponent,

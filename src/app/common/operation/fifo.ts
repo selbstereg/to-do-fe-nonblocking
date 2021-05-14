@@ -1,4 +1,3 @@
-
 export class FiFo<E> {
   private elements: E[] = [];
 
@@ -20,5 +19,9 @@ export class FiFo<E> {
 
   public isNotEmpty(): boolean {
     return !this.isEmpty();
+  }
+
+  public forEach(fun: (element: E) => void) {
+    this.elements.forEach(element => fun(element));
   }
 }
