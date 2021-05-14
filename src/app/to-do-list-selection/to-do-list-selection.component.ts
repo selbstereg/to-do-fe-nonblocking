@@ -1,9 +1,9 @@
-import {Component, OnInit, Output, EventEmitter, Input} from '@angular/core';
-import {NamedEntity, ToDoListsGet} from '../to-do-list-page/model/to-do-list.model';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {ToDoListsGet} from '../to-do-list-page/model/to-do-list.model';
 import {PLACEHOLDER_ADD_NEW_TO_DO_LIST} from '../common/constants';
 import {Synchronizer} from '../common/operation/synchronizer.service';
 import {MatDialog} from '@angular/material';
-import {ConfirmationDialogComponent} from '../common/confirmation-dialog/confirmation-dialog.component';
+import {ToDoList} from '../common/operation/glob-state.service';
 
 
 @Component({
@@ -13,11 +13,11 @@ import {ConfirmationDialogComponent} from '../common/confirmation-dialog/confirm
 })
 export class ToDoListSelectionComponent implements OnInit {
 
-  @Input() selectedToDoList: NamedEntity;
-  @Output() selectToDoList = new EventEmitter<NamedEntity>();
+  @Input() selectedToDoList: ToDoList;
+  @Output() selectToDoList = new EventEmitter<ToDoList>();
 
   readonly ITEM_ADDER_PLACEHOLDER = PLACEHOLDER_ADD_NEW_TO_DO_LIST;
-  toDoLists: NamedEntity[] = [];
+  toDoLists: ToDoList[] = [];
 
   constructor(
     private synchronizer: Synchronizer,
@@ -34,23 +34,23 @@ export class ToDoListSelectionComponent implements OnInit {
   fetchToDoLists() {
     this.synchronizer.fetchToDoLists(
       new ToDoListsGet(
-        (toDoLists: NamedEntity[]) => this.toDoLists = toDoLists
+        (toDoLists: ToDoList[]) => this.toDoLists = toDoLists
       )
     );
   }
 
-  onSelect(toDoList: NamedEntity) {
+  onSelect(toDoList: ToDoList) {
     this.selectToDoList.emit(toDoList);
   }
 
   onAddToDoList(listName: string) {
     // this.synchronizer.addToDoList(listName).subscribe(
-    //   (body: NamedEntity) => this.selectToDoList.emit(body)
+    //   (body: ToDoList) => this.selectToDoList.emit(body)
     // );
   }
 
   // TODO: Add error toast, if list or to do can't be found
-  onClickDeleteButton(toDoList: NamedEntity) {
+  onClickDeleteButton(toDoList: ToDoList) {
     // this.dialogService.open(ConfirmationDialogComponent, {data: {text: `"${toDoList.name}" wirklich löschen?`}})
     //   .afterClosed()
     //   .subscribe(confirmed => {
@@ -61,7 +61,7 @@ export class ToDoListSelectionComponent implements OnInit {
     //   );
   }
 
-  private deleteToDoList(toDoList: NamedEntity) {
+  private deleteToDoList(toDoList: ToDoList) {
     // this.synchronizer.deleteToDoList(toDoList.id).subscribe(
     //   this.fetchToDoLists,
     //   this.fetchToDoLists

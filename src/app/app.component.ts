@@ -1,7 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {faBars} from '@fortawesome/free-solid-svg-icons';
-import {NamedEntity, ToDoListsGet} from './to-do-list-page/model/to-do-list.model';
+import {ToDoListsGet} from './to-do-list-page/model/to-do-list.model';
 import {Synchronizer} from './common/operation/synchronizer.service';
+import {ToDoList} from './common/operation/glob-state.service';
 
 @Component({
   selector: 'app-root',
@@ -10,7 +11,7 @@ import {Synchronizer} from './common/operation/synchronizer.service';
 })
 export class AppComponent implements OnInit {
   readonly faBars = faBars;
-  selectedToDoList: NamedEntity = null;
+  selectedToDoList: ToDoList = null;
   sideNavOpened = false;
   listTitle = '';
 
@@ -21,8 +22,8 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     this.synchronizer.fetchToDoLists(
       new ToDoListsGet(
-        (toDoLists: NamedEntity[]) => {
-          const toDoList: NamedEntity =
+        (toDoLists: ToDoList[]) => {
+          const toDoList: ToDoList =
             toDoLists.length
               ? toDoLists[0]
               : { name: 'Keine Listen gefunden', id: null };
@@ -40,12 +41,12 @@ export class AppComponent implements OnInit {
     this.sideNavOpened = false;
   }
 
-  setSelectedToDoList(toDoList: NamedEntity) {
+  setSelectedToDoList(toDoList: ToDoList) {
     this.selectedToDoList = toDoList;
     this.listTitle = toDoList.name;
   }
 
-  onSelectToDoList(toDoList: NamedEntity) {
+  onSelectToDoList(toDoList: ToDoList) {
     this.closeSideNav();
     this.setSelectedToDoList(toDoList);
   }
