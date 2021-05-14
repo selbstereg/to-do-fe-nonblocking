@@ -1,10 +1,10 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {SYNC_INTERVAL_MS} from '../constants';
+import {API_URL, SYNC_INTERVAL_MS} from '../constants';
 import {take} from 'rxjs/operators';
 import DebounceTimer from '../utils/debounce-timer';
 import {Operation} from './operations/operation';
-import {ToDoListsGet} from './operations/to-do-list-get';
+import {ToDoListsGet} from './operations/to-do-lists-get';
 import {FiFo} from './fifo';
 import {LoggingService} from '../logging/logging.service';
 import {GlobState, StateSnapshot, ToDoList} from './glob-state.service';
@@ -22,6 +22,12 @@ export class Synchronizer {
   ) {
   }
 
+
+  public addOperation(toDoListsGet: ToDoListsGet) {
+    this.fiFo.add(toDoListsGet);
+    this.sync();
+  }
+
   private sync() {
     this.syncTimer.stop();
     if (this.fiFo.isNotEmpty() && !this.requestInProgress) {
@@ -33,7 +39,7 @@ export class Synchronizer {
   private issueRequest(operation: Operation) {
     this.requestInProgress = true;
     this.httpClient
-      .post(operation.endpoint, operation)
+      .post(API_URL + operation.endpoint, operation)
       .pipe(take(1))
       .subscribe(
         (snapshot: StateSnapshot) => {
@@ -54,13 +60,6 @@ export class Synchronizer {
 
   private syncAgainAfterInterval() {
     this.syncTimer.start(() => this.sync());
-  }
-
-
-  // READ
-  public fetchToDoLists(toDoListsGet: ToDoListsGet) {
-    this.fiFo.add(toDoListsGet);
-    this.sync();
   }
 
   private triggerCallback(callback: (toDoLists: ToDoList[]) => void) {

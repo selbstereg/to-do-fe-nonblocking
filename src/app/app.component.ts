@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {faBars} from '@fortawesome/free-solid-svg-icons';
-import {ToDoListsGet} from './common/state/operations/to-do-list-get';
+import {ToDoListsGet} from './common/state/operations/to-do-lists-get';
 import {Synchronizer} from './common/state/synchronizer.service';
 import {ToDoList} from './common/state/glob-state.service';
 
@@ -20,7 +20,7 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.synchronizer.fetchToDoLists(
+    this.synchronizer.addOperation(
       new ToDoListsGet(
         this.selectFirstListIfPresent
       )

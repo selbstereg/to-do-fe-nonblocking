@@ -1,10 +1,9 @@
 import {Operation} from './operation';
 import uuidv4 from 'uuid/v4';
-import {TO_DO_LISTS_ENDPOINT_URL} from '../../constants';
 import {ToDoList} from '../glob-state.service';
 
 export class ToDoListsGet implements Operation {
-  public endpoint = TO_DO_LISTS_ENDPOINT_URL;
+  public endpoint = '/to-do-lists/get';
   public operationId: string;
 
   constructor(

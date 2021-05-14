@@ -1,9 +1,10 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {ToDoListsGet} from '../common/state/operations/to-do-list-get';
+import {ToDoListsGet} from '../common/state/operations/to-do-lists-get';
 import {PLACEHOLDER_ADD_NEW_TO_DO_LIST} from '../common/constants';
 import {Synchronizer} from '../common/state/synchronizer.service';
 import {MatDialog} from '@angular/material';
 import {ToDoList} from '../common/state/glob-state.service';
+import ToDoListAdd from '../common/state/operations/to-do-list-add';
 
 
 @Component({
@@ -32,7 +33,7 @@ export class ToDoListSelectionComponent implements OnInit {
   }
 
   fetchToDoLists() {
-    this.synchronizer.fetchToDoLists(
+    this.synchronizer.addOperation(
       new ToDoListsGet(
         (toDoLists: ToDoList[]) => this.toDoLists = toDoLists
       )
@@ -45,9 +46,13 @@ export class ToDoListSelectionComponent implements OnInit {
   }
 
   onAddToDoList(listName: string) {
-    // this.synchronizer.addToDoList(listName).subscribe(
-    //   (body: ToDoList) => this.selectToDoList.emit(body)
-    // );
+    this.synchronizer.addOperation(
+      new ToDoListAdd(
+        listName,
+        (toDoLists: ToDoList[]) => this.toDoLists = toDoLists
+      )
+    );
+    this.toDoLists = this.synchronizer.getState();
   }
 
   // TODO: Add error toast, if list or to do can't be found

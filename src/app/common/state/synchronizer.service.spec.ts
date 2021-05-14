@@ -1,5 +1,5 @@
 import {Synchronizer} from './synchronizer.service';
-import {ToDoListsGet} from './operations/to-do-list-get';
+import {ToDoListsGet} from './operations/to-do-lists-get';
 import {Observable, of, throwError, timer} from 'rxjs';
 import {mergeMap} from 'rxjs/operators';
 import {HttpClient} from '@angular/common/http';
@@ -83,7 +83,7 @@ describe('Synchronizer', () => {
   it('should sync and invoke callback after successful request', done => {
     mockHttpClient.post.mockReturnValue(of(createResponseBody(['list'])));
 
-    synchronizer.fetchToDoLists(
+    synchronizer.addOperation(
       new ToDoListsGet(
         (lists) => {
           expect(lists.length).toBe(1);
@@ -101,7 +101,7 @@ describe('Synchronizer', () => {
     );
 
     // first fetch operation
-    synchronizer.fetchToDoLists(
+    synchronizer.addOperation(
       new ToDoListsGet(
         (lists) => {
           expect(lists.length).toBe(1);
@@ -111,7 +111,7 @@ describe('Synchronizer', () => {
     );
 
     // second fetch operation
-    synchronizer.fetchToDoLists(
+    synchronizer.addOperation(
       new ToDoListsGet(
         (lists) => {
           expect(lists.length).toBe(2);
@@ -136,7 +136,7 @@ describe('Synchronizer', () => {
       );
     });
 
-    synchronizer.fetchToDoLists(
+    synchronizer.addOperation(
       new ToDoListsGet(
         (lists) => {
           expect(lists.length).toBe(1);
