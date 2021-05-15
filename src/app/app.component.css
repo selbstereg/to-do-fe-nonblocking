@@ -16,6 +16,10 @@ mat-sidenav {
     width: 260px;
 }
 
-.list-ui {
-  padding: 0px 8px 0px 8px;
+.main-container {
+  padding: 34px 8px 0px 8px;
+}
+
+.side-nav-slider {
+  padding-top: 34px;
 }
