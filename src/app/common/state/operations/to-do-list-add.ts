@@ -1,6 +1,6 @@
 import {Operation} from './operation';
 import uuidv4 from 'uuid/v4';
-import {ToDoList, ToDoLists} from '../glob-state.service';
+import {ToDoList, ToDoLists} from '../glob-state';
 
 export default class ToDoListAdd implements Operation {
   public endpoint = '/to-do-lists/add';

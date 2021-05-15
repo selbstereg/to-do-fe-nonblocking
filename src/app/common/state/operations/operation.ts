@@ -1,4 +1,4 @@
-import {ToDoList, ToDoLists} from '../glob-state.service';
+import {ToDoList, ToDoLists} from '../glob-state';
 
 export interface Operation {
   endpoint: string;

@@ -5,21 +5,30 @@ import {take} from 'rxjs/operators';
 import DebounceTimer from '../utils/debounce-timer';
 import {Operation} from './operations/operation';
 import {ToDoListsGet} from './operations/to-do-lists-get';
-import {FiFo} from './fifo';
+import {OperationFiFo} from './fifo';
 import {LoggingService} from '../logging/logging.service';
-import {GlobState, StateSnapshot, ToDoList} from './glob-state.service';
+import {GlobState, StateSnapshot, ToDoList} from './glob-state';
 
 @Injectable()
 export class Synchronizer {
   private requestInProgress = false;
   private syncTimer: DebounceTimer = new DebounceTimer(SYNC_INTERVAL_MS);
-  private fiFo: FiFo<Operation> = new FiFo();
 
   constructor(
     private httpClient: HttpClient,
     private log: LoggingService,
-    private globState: GlobState
+    private globState: GlobState,
+    private fiFo: OperationFiFo
   ) {
+    document.addEventListener(
+      'visibilitychange',
+      () => {
+        if (document.hidden) {
+          this.syncTimer.stop();
+        } else {
+          this.sync();
+        }
+      });
   }
 
 
@@ -52,14 +61,16 @@ export class Synchronizer {
         (err) => {
           this.requestInProgress = false;
           this.log.error(`${err.status} - ${err.message}`);
-          this.syncAgainAfterInterval();
+          this.setSyncTimerIfNotHidden();
         }
       )
     ;
   }
 
-  private syncAgainAfterInterval() {
-    this.syncTimer.start(() => this.sync());
+  private setSyncTimerIfNotHidden() {
+    if (!document.hidden) { // necessary, because response may arrive while ui is hidden
+      this.syncTimer.start(() => this.sync());
+    }
   }
 
   private triggerCallback(callback: (toDoLists: ToDoList[]) => void) {

@@ -1,4 +1,8 @@
-export class FiFo<E> {
+import {Injectable} from '@angular/core';
+import {Operation} from './operations/operation';
+
+
+class FiFo<E> {
   private elements: E[] = [];
 
   public add(el: E) {
@@ -25,3 +29,10 @@ export class FiFo<E> {
     this.elements.forEach(element => fun(element));
   }
 }
+
+@Injectable()
+export class OperationFiFo extends FiFo<Operation> {
+
+}
+
+

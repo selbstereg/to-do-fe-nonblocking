@@ -4,7 +4,7 @@ import {Observable, of, throwError, timer} from 'rxjs';
 import {mergeMap} from 'rxjs/operators';
 import {HttpClient} from '@angular/common/http';
 import {LoggingService} from '../logging/logging.service';
-import {GlobState, StateSnapshot, ToDoList} from './glob-state.service';
+import {GlobState, StateSnapshot, ToDoList} from './glob-state';
 
 // Mock uuid/v4 because it otherwise leads to type errors
 jest.mock('uuid/v4', () => { // TODO Paul Bauknecht 02 05 2021: maybe move this into a __mocks__ folder beneath node_modules

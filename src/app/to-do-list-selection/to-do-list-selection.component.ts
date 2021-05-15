@@ -3,7 +3,7 @@ import {ToDoListsGet} from '../common/state/operations/to-do-lists-get';
 import {PLACEHOLDER_ADD_NEW_TO_DO_LIST} from '../common/constants';
 import {Synchronizer} from '../common/state/synchronizer.service';
 import {MatDialog} from '@angular/material';
-import {ToDoList} from '../common/state/glob-state.service';
+import {ToDoList} from '../common/state/glob-state';
 import ToDoListAdd from '../common/state/operations/to-do-list-add';
 
 
