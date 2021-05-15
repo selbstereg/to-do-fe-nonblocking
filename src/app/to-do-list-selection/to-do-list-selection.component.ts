@@ -5,6 +5,8 @@ import {Synchronizer} from '../common/state/synchronizer.service';
 import {MatDialog} from '@angular/material';
 import {ToDoList} from '../common/state/glob-state';
 import ToDoListAdd from '../common/state/operations/to-do-list-add';
+import {ConfirmationDialogComponent} from '../common/confirmation-dialog/confirmation-dialog.component';
+import ToDoListDelete from '../common/state/operations/to-do-list-delete';
 
 
 @Component({
@@ -55,25 +57,24 @@ export class ToDoListSelectionComponent implements OnInit {
     this.toDoLists = this.synchronizer.getState();
   }
 
-  // TODO: Add error toast, if list or to do can't be found
   onClickDeleteButton(toDoList: ToDoList) {
-    // this.dialogService.open(ConfirmationDialogComponent, {data: {text: `"${toDoList.name}" wirklich löschen?`}})
-    //   .afterClosed()
-    //   .subscribe(confirmed => {
-    //       if (confirmed) {
-    //         this.deleteToDoList(toDoList);
-    //       }
-    //     }
-    //   );
+    this.dialogService.open(ConfirmationDialogComponent, {data: {text: `"${toDoList.name}" wirklich löschen?`}})
+      .afterClosed()
+      .subscribe(confirmed => {
+          if (confirmed) {
+            this.deleteToDoList(toDoList);
+          }
+        }
+      );
   }
 
   private deleteToDoList(toDoList: ToDoList) {
-    // this.synchronizer.deleteToDoList(toDoList.id).subscribe(
-    //   this.fetchToDoLists,
-    //   this.fetchToDoLists
-    // );
-    // if (toDoList.id === this.selectedToDoList.id) {
-    //   this.selectToDoList.emit(this.toDoLists[0]);
-    // }
+    this.synchronizer.addOperation(
+      new ToDoListDelete(
+        toDoList.id,
+        (toDoLists: ToDoList[]) => this.toDoLists = toDoLists
+      )
+    );
+    this.toDoLists = this.synchronizer.getState();
   }
 }

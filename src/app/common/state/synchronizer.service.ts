@@ -79,9 +79,7 @@ export class Synchronizer {
 
   public getState(): ToDoList[] {
     const curState = this.globState.copyLastSeenState();
-    this.fiFo.forEach(operation =>
-      operation.apply(curState)
-    );
+    this.fiFo.forEach(operation => operation.apply(curState));
     return curState.toDoLists;
   }
 }
