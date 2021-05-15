@@ -1,9 +1,10 @@
 import {Injectable} from '@angular/core';
 import {Operation} from './operations/operation';
+import {Subject} from 'rxjs';
 
 
 class FiFo<E> {
-  private elements: E[] = [];
+  protected elements: E[] = [];
 
   public add(el: E) {
     this.elements.push(el);
@@ -33,6 +34,22 @@ class FiFo<E> {
 @Injectable()
 export class OperationFiFo extends FiFo<Operation> {
 
+  private numElementsSubject = new Subject<number>();
+
+  public add(el: Operation) {
+    super.add(el);
+    this.numElementsSubject.next(this.elements.length);
+  }
+
+  public popCur(): Operation {
+    const operation = super.popCur();
+    this.numElementsSubject.next(this.elements.length);
+    return operation;
+  }
+
+  public subscribe(callback: (value: number) => void) {
+    this.numElementsSubject.subscribe(callback);
+  }
 }
 
 
