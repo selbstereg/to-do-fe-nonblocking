@@ -1,0 +1,15 @@
+<div
+  *ngIf="numPendingOperations === 0"
+  class="sync-bar synced"
+>
+  Synchronisiert :)
+</div>
+<div
+  *ngIf="numPendingOperations !== 0"
+  class="sync-bar not-synced"
+>
+  Ausstehende Operationen: {{numPendingOperations}}
+</div>
+<div class="sync-bar-placeholder">
+  You should not see this
+</div>

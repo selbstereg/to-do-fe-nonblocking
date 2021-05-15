@@ -1,4 +1,5 @@
-<mat-sidenav-container>
+<sync-bar></sync-bar>
+<mat-sidenav-container class="list-ui">
   <mat-sidenav position="end" [(opened)]="sideNavOpened">
     <to-do-list-selection
       *ngIf="sideNavOpened"
@@ -16,3 +17,4 @@
     <logging-page></logging-page>
   </mat-sidenav-content>
 </mat-sidenav-container>
+

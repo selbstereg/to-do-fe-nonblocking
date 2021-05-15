@@ -24,6 +24,7 @@ import {LoggingPageComponent} from './logging/logging-page.component';
 import {LoggingService} from './common/logging/logging.service';
 import {GlobState} from './common/state/glob-state';
 import {OperationFiFo} from './common/state/fifo';
+import {SyncBarComponent} from './sync-bar/sync-bar.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import {OperationFiFo} from './common/state/fifo';
     DeleteButtonComponent,
     ConfirmationDialogComponent,
     LoggingPageComponent,
+    SyncBarComponent
   ],
   imports: [
     DragDropModule,

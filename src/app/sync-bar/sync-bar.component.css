@@ -1,0 +1,21 @@
+.sync-bar {
+  position: fixed;
+  top: 0;
+  padding: 8px;
+  width: 100%;
+  z-index: 100000;
+}
+
+.sync-bar-placeholder {
+  top: 0;
+  padding: 8px;
+  width: 100%;
+}
+
+.synced {
+  background-color: greenyellow;
+}
+
+.not-synced {
+  background-color: red;
+}

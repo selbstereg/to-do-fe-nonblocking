@@ -15,3 +15,7 @@
 mat-sidenav {
     width: 260px;
 }
+
+.list-ui {
+  padding: 0px 8px 0px 8px;
+}
