@@ -33,7 +33,7 @@ export class AppComponent implements OnInit {
     const toDoList: ToDoList =
       toDoLists.length
         ? toDoLists[0]
-        : {name: 'Keine Listen gefunden', id: null};
+        : {name: 'Keine Listen gefunden', id: null, toDos: []};
     this.setSelectedToDoList(toDoList);
   }
 

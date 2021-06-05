@@ -1,8 +1,13 @@
 import {Injectable} from '@angular/core';
 
+export interface ToDo {
+  name: string;
+}
+
 export interface ToDoList {
   id: string;
   name: string;
+  toDos: ToDo[];
 }
 
 // The app state as maintained by the app

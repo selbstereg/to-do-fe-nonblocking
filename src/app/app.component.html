@@ -4,6 +4,7 @@
 </sync-bar>
 <mat-sidenav-container class="main-container">
   <mat-sidenav class="side-nav-slider" position="end" [(opened)]="sideNavOpened">
+    <!-- TODO Paul Bauknecht 5.6.2021 the toDoListSelection does not need the selected to do list as input! -->
     <to-do-list-selection
       *ngIf="sideNavOpened"
       [selectedToDoList]="selectedToDoList"
@@ -17,105 +18,11 @@
         <fa-icon [icon]="faBars"></fa-icon>
       </button>
     </p>
-    <logging-page
-      *ngIf="!showToDoList"
-    >
-    </logging-page>
-    <ul
-      *ngIf="showToDoList"
-    >
-      <li>lorem ipsum dolor sit amet</li>
-      <li>lorem ipsum dolor sit amet</li>
-      <li>lorem ipsum dolor sit amet</li>
-      <li>lorem ipsum dolor sit amet</li>
-      <li>lorem ipsum dolor sit amet</li>
-      <li>lorem ipsum dolor sit amet</li>
-      <li>lorem ipsum dolor sit amet</li>
-      <li>lorem ipsum dolor sit amet</li>
-      <li>lorem ipsum dolor sit amet</li>
-      <li>lorem ipsum dolor sit amet</li>
-      <li>lorem ipsum dolor sit amet</li>
-      <li>lorem ipsum dolor sit amet</li>
-      <li>lorem ipsum dolor sit amet</li>
-      <li>lorem ipsum dolor sit amet</li>
-      <li>lorem ipsum dolor sit amet</li>
-      <li>lorem ipsum dolor sit amet</li>
-      <li>lorem ipsum dolor sit amet</li>
-      <li>lorem ipsum dolor sit amet</li>
-      <li>lorem ipsum dolor sit amet</li>
-      <li>lorem ipsum dolor sit amet</li>
-      <li>lorem ipsum dolor sit amet</li>
-      <li>lorem ipsum dolor sit amet</li>
-      <li>lorem ipsum dolor sit amet</li>
-      <li>lorem ipsum dolor sit amet</li>
-      <li>lorem ipsum dolor sit amet</li>
-      <li>lorem ipsum dolor sit amet</li>
-      <li>lorem ipsum dolor sit amet</li>
-      <li>lorem ipsum dolor sit amet</li>
-      <li>lorem ipsum dolor sit amet</li>
-      <li>lorem ipsum dolor sit amet</li>
-      <li>lorem ipsum dolor sit amet</li>
-      <li>lorem ipsum dolor sit amet</li>
-      <li>lorem ipsum dolor sit amet</li>
-      <li>lorem ipsum dolor sit amet</li>
-      <li>lorem ipsum dolor sit amet</li>
-      <li>lorem ipsum dolor sit amet</li>
-      <li>lorem ipsum dolor sit amet</li>
-      <li>lorem ipsum dolor sit amet</li>
-      <li>lorem ipsum dolor sit amet</li>
-      <li>lorem ipsum dolor sit amet</li>
-      <li>lorem ipsum dolor sit amet</li>
-      <li>lorem ipsum dolor sit amet</li>
-      <li>lorem ipsum dolor sit amet</li>
-      <li>lorem ipsum dolor sit amet</li>
-      <li>lorem ipsum dolor sit amet</li>
-      <li>lorem ipsum dolor sit amet</li>
-      <li>lorem ipsum dolor sit amet</li>
-      <li>lorem ipsum dolor sit amet</li>
-      <li>lorem ipsum dolor sit amet</li>
-      <li>lorem ipsum dolor sit amet</li>
-      <li>lorem ipsum dolor sit amet</li>
-      <li>lorem ipsum dolor sit amet</li>
-      <li>lorem ipsum dolor sit amet</li>
-      <li>lorem ipsum dolor sit amet</li>
-      <li>lorem ipsum dolor sit amet</li>
-      <li>lorem ipsum dolor sit amet</li>
-      <li>lorem ipsum dolor sit amet</li>
-      <li>lorem ipsum dolor sit amet</li>
-      <li>lorem ipsum dolor sit amet</li>
-      <li>lorem ipsum dolor sit amet</li>
-      <li>lorem ipsum dolor sit amet</li>
-      <li>lorem ipsum dolor sit amet</li>
-      <li>lorem ipsum dolor sit amet</li>
-      <li>lorem ipsum dolor sit amet</li>
-      <li>lorem ipsum dolor sit amet</li>
-      <li>lorem ipsum dolor sit amet</li>
-      <li>lorem ipsum dolor sit amet</li>
-      <li>lorem ipsum dolor sit amet</li>
-      <li>lorem ipsum dolor sit amet</li>
-      <li>lorem ipsum dolor sit amet</li>
-      <li>lorem ipsum dolor sit amet</li>
-      <li>lorem ipsum dolor sit amet</li>
-      <li>lorem ipsum dolor sit amet</li>
-      <li>lorem ipsum dolor sit amet</li>
-      <li>lorem ipsum dolor sit amet</li>
-      <li>lorem ipsum dolor sit amet</li>
-      <li>lorem ipsum dolor sit amet</li>
-      <li>lorem ipsum dolor sit amet</li>
-      <li>lorem ipsum dolor sit amet</li>
-      <li>lorem ipsum dolor sit amet</li>
-      <li>lorem ipsum dolor sit amet</li>
-      <li>lorem ipsum dolor sit amet</li>
-      <li>lorem ipsum dolor sit amet</li>
-      <li>lorem ipsum dolor sit amet</li>
-      <li>lorem ipsum dolor sit amet</li>
-      <li>lorem ipsum dolor sit amet</li>
-      <li>lorem ipsum dolor sit amet</li>
-      <li>lorem ipsum dolor sit amet</li>
-      <li>lorem ipsum dolor sit amet</li>
-      <li>lorem ipsum dolor sit amet</li>
-      <li>lorem ipsum dolor sit amet</li>
-    </ul>
+    <to-do-list-page
+      *ngIf="showToDoList && selectedToDoList"
+      [selectedToDoList]="selectedToDoList"
+    ></to-do-list-page>
+    <logging-page *ngIf="!showToDoList"></logging-page>
   </mat-sidenav-content>
 </mat-sidenav-container>
 

@@ -1,0 +1,11 @@
+<!-- TODO: The css-class box-item is applied here as well as in drag-drop-list.component.html
+this is a hack, to make the styling look like it used to before the refactoring, that lead to
+the creation of ToDoUiComponent. Make the styling less hacky. -->
+<div
+    class="box-item to-do-ui"
+>
+    {{toDo.name}}
+    <delete-button
+    >
+    </delete-button>
+</div>

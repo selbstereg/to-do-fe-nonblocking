@@ -1,0 +1,12 @@
+
+<div cdkDropList class="example-list" (cdkDropListDropped)="drop($event)">
+    <to-do-ui
+        *ngFor="let toDo of getToDosInReverseOrder()"
+
+        [toDo]="toDo"
+
+        class="box-item"
+        cdkDrag
+    >
+    </to-do-ui>
+</div>

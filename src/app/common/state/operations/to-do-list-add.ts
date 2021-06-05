@@ -19,7 +19,8 @@ export default class ToDoListAdd implements Operation {
     globState.toDoLists.push(
       {
         name: this.listName,
-        id: this.listId
+        id: this.listId,
+        toDos: []
       }
     );
   }

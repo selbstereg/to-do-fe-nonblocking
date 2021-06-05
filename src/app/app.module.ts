@@ -25,6 +25,9 @@ import {LoggingService} from './common/logging/logging.service';
 import {GlobState} from './common/state/glob-state';
 import {OperationFiFo} from './common/state/fifo';
 import {SyncBarComponent} from './sync-bar/sync-bar.component';
+import {ToDoUiComponent} from './to-do-list-page/drag-drop-list/to-do-ui/to-do-ui.component';
+import {DragDropListComponent} from './to-do-list-page/drag-drop-list/drag-drop-list.component';
+import {ToDoListPageComponent} from './to-do-list-page/to-do-list-page.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +38,10 @@ import {SyncBarComponent} from './sync-bar/sync-bar.component';
     DeleteButtonComponent,
     ConfirmationDialogComponent,
     LoggingPageComponent,
-    SyncBarComponent
+    SyncBarComponent,
+    ToDoListPageComponent,
+    DragDropListComponent,
+    ToDoUiComponent
   ],
   imports: [
     DragDropModule,
@@ -61,7 +67,7 @@ import {SyncBarComponent} from './sync-bar/sync-bar.component';
   bootstrap: [
     AppComponent,
     MatSpinner,
-    // FavouriteEinkaufItems, TODO Paul Bauknecht 01 05 2021: for some reason these components were in bootstrap
+    // FavouriteEinkaufItems,
     ConfirmationDialogComponent,
     // ToDoEditorComponent
   ]
