@@ -1,4 +1,7 @@
-<sync-bar></sync-bar>
+<sync-bar
+  (click)="toggleShowToDoList()"
+>
+</sync-bar>
 <mat-sidenav-container class="main-container">
   <mat-sidenav class="side-nav-slider" position="end" [(opened)]="sideNavOpened">
     <to-do-list-selection
@@ -14,8 +17,13 @@
         <fa-icon [icon]="faBars"></fa-icon>
       </button>
     </p>
-    <logging-page></logging-page>
-    <ul>
+    <logging-page
+      *ngIf="!showToDoList"
+    >
+    </logging-page>
+    <ul
+      *ngIf="showToDoList"
+    >
       <li>lorem ipsum dolor sit amet</li>
       <li>lorem ipsum dolor sit amet</li>
       <li>lorem ipsum dolor sit amet</li>

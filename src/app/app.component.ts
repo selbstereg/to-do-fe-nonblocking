@@ -14,6 +14,7 @@ export class AppComponent implements OnInit {
   selectedToDoList: ToDoList = null;
   sideNavOpened = false;
   listTitle = '';
+  showToDoList = true;
 
   constructor(private synchronizer: Synchronizer) {
     this.selectFirstListIfPresent = this.selectFirstListIfPresent.bind(this);
@@ -52,5 +53,9 @@ export class AppComponent implements OnInit {
   onSelectToDoList(toDoList: ToDoList) {
     this.closeSideNav();
     this.setSelectedToDoList(toDoList);
+  }
+
+  toggleShowToDoList() {
+    this.showToDoList = !this.showToDoList;
   }
 }
