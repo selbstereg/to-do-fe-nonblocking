@@ -4,10 +4,8 @@
 </sync-bar>
 <mat-sidenav-container class="main-container">
   <mat-sidenav class="side-nav-slider" position="end" [(opened)]="sideNavOpened">
-    <!-- TODO Paul Bauknecht 5.6.2021 the toDoListSelection does not need the selected to do list as input! -->
     <to-do-list-selection
       *ngIf="sideNavOpened"
-      [selectedToDoList]="selectedToDoList"
       (selectToDoList)="onSelectToDoList($event)"
     >
     </to-do-list-selection>

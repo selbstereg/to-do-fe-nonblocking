@@ -15,8 +15,6 @@ import ToDoListDelete from '../common/state/operations/to-do-list-delete';
   styleUrls: ['./to-do-list-selection.component.css']
 })
 export class ToDoListSelectionComponent implements OnInit {
-
-  @Input() selectedToDoList: ToDoList;
   @Output() selectToDoList = new EventEmitter<ToDoList>();
 
   readonly ITEM_ADDER_PLACEHOLDER = PLACEHOLDER_ADD_NEW_TO_DO_LIST;
