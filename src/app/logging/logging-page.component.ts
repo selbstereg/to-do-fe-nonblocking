@@ -11,12 +11,13 @@ export class LoggingPageComponent implements OnInit {
   public logs: LogEntry[] = [];
 
   constructor(
-    private log: LoggingService
+    private loggingService: LoggingService
   ) {
   }
 
   ngOnInit(): void {
-    this.log.subscribe(
+    this.logs = this.loggingService.logs;
+    this.loggingService.subscribe(
       logs => this.logs = logs
     );
   }
