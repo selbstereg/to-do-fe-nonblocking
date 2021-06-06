@@ -7,7 +7,6 @@ export class ToDoListsGet implements Operation {
   public operationId: string;
 
   constructor(
-    public callback: (toDoLists: ToDoList[]) => void,
   ) {
     this.operationId = uuidv4();
   }

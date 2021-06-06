@@ -4,7 +4,6 @@ import {API_URL, SYNC_INTERVAL_MS} from '../constants';
 import {take} from 'rxjs/operators';
 import DebounceTimer from '../utils/debounce-timer';
 import {Operation} from './operations/operation';
-import {ToDoListsGet} from './operations/to-do-lists-get';
 import {OperationFiFo} from './fifo';
 import {LoggingService} from '../logging/logging.service';
 import {GlobState, StateSnapshot, ToDoList} from './glob-state';
@@ -34,10 +33,9 @@ export class Synchronizer {
       });
   }
 
-
   public addOperation(operation: Operation) {
     this.fiFo.add(operation);
-    this.globStateSubject.next(this.getState());
+    this.updateSubscribers();
     this.sync();
   }
 
@@ -60,7 +58,7 @@ export class Synchronizer {
           this.requestInProgress = false;
           this.sync();
           this.globState.setLastSeenState(snapshot.toDoLists);
-          this.triggerCallback(operation.callback);
+          this.updateSubscribers();
         },
         (err) => {
           this.requestInProgress = false;
@@ -71,14 +69,14 @@ export class Synchronizer {
     ;
   }
 
+  private updateSubscribers() {
+    this.globStateSubject.next(this.getState());
+  }
+
   private setSyncTimerIfNotHidden() {
     if (!document.hidden) { // necessary, because response may arrive while ui is hidden
       this.syncTimer.start(() => this.sync());
     }
-  }
-
-  private triggerCallback(callback: (toDoLists: ToDoList[]) => void) {
-    callback(this.getState());
   }
 
   public getState(): ToDoList[] {

@@ -7,8 +7,7 @@ export default class ToDoListDelete implements Operation {
   public operationId: string;
 
   constructor(
-    public listId: string,
-    public callback: (toDoLists: ToDoList[]) => void
+    public listId: string
   ) {
     this.operationId = uuidv4();
   }

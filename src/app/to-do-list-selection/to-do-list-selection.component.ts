@@ -42,9 +42,7 @@ export class ToDoListSelectionComponent implements OnInit, OnDestroy {
 
   fetchToDoLists() {
     this.synchronizer.addOperation(
-      new ToDoListsGet(
-        (toDoLists: ToDoList[]) => this.toDoLists = toDoLists
-      )
+      new ToDoListsGet()
     );
   }
 
@@ -54,10 +52,7 @@ export class ToDoListSelectionComponent implements OnInit, OnDestroy {
 
   onAddToDoList(listName: string) {
     this.synchronizer.addOperation(
-      new ToDoListAdd(
-        listName,
-        (toDoLists: ToDoList[]) => this.toDoLists = toDoLists
-      )
+      new ToDoListAdd(listName)
     );
   }
 
@@ -74,10 +69,7 @@ export class ToDoListSelectionComponent implements OnInit, OnDestroy {
 
   private deleteToDoList(toDoList: ToDoList) {
     this.synchronizer.addOperation(
-      new ToDoListDelete(
-        toDoList.id,
-        (toDoLists: ToDoList[]) => this.toDoLists = toDoLists
-      )
+      new ToDoListDelete(toDoList.id)
     );
   }
 }

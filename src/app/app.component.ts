@@ -10,6 +10,7 @@ import {ToDoList} from './common/state/glob-state';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
+
   readonly faBars = faBars;
   selectedToDoList: ToDoList = null;
   sideNavOpened = false;
@@ -18,15 +19,26 @@ export class AppComponent implements OnInit {
 
   constructor(private synchronizer: Synchronizer) {
     this.selectFirstListIfPresent = this.selectFirstListIfPresent.bind(this);
+    this.updateSelectedToDoListState = this.updateSelectedToDoListState.bind(this);
   }
 
   ngOnInit(): void {
-    this.synchronizer.addOperation(
-      new ToDoListsGet(
-        this.selectFirstListIfPresent
-      )
-    );
+    this.synchronizer.addOperation(new ToDoListsGet());
     this.selectFirstListIfPresent(this.synchronizer.getState());
+    this.synchronizer.subscribe(list => {
+        console.log('updating state');
+        this.updateSelectedToDoListState(list);
+      }
+    ); // Component is never destroyed. No unsubscribe necessary.
+  }
+
+  private updateSelectedToDoListState(toDoLists: ToDoList[]) {
+    const updatedSelectedToDoList = toDoLists.find(list => list.id === this.selectedToDoList.id);
+    if (updatedSelectedToDoList) {
+      this.selectedToDoList = updatedSelectedToDoList;
+    } else {
+      this.selectFirstListIfPresent(toDoLists);
+    }
   }
 
   private selectFirstListIfPresent(toDoLists: ToDoList[]) {

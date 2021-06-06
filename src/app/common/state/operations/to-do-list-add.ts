@@ -8,8 +8,7 @@ export default class ToDoListAdd implements Operation {
   public listId: string;
 
   constructor(
-    public listName: string,
-    public callback: (toDoLists: ToDoList[]) => void
+    public listName: string
   ) {
     this.operationId = uuidv4();
     this.listId = uuidv4();

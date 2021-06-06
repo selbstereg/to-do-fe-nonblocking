@@ -1,6 +1,6 @@
 import {Operation} from './operation';
 import uuidv4 from 'uuid/v4';
-import {ToDoList, ToDoLists} from '../glob-state';
+import {ToDoLists} from '../glob-state';
 
 export default class ToDoAdd implements Operation {
   public endpoint = '/to-dos/add';
@@ -9,8 +9,7 @@ export default class ToDoAdd implements Operation {
 
   constructor(
     public toDoName: string,
-    public listId: string,
-    public callback: (toDoLists: ToDoList[]) => void
+    public listId: string
   ) {
     this.operationId = uuidv4();
     this.toDoId = uuidv4();

@@ -82,13 +82,7 @@ export class ToDoListPageComponent  implements OnInit/*, OnChanges */, OnDestroy
     this.synchronizer.addOperation(
       new ToDoAdd(
         toDoName,
-        this.selectedToDoList.id,
-        _ => {
-          console.log(_);
-          // do nothing...
-          // const updatedSelectedList = toDoLists.find(list => list.id === this.selectedToDoList.id);
-          // this.
-        }
+        this.selectedToDoList.id
       )
     );
 
