@@ -18,5 +18,6 @@ export class SyncBarComponent implements OnInit {
     this.operationFiFo.subscribe(
       (numPendingOperations: number) => this.numPendingOperations = numPendingOperations
     );
+    this.numPendingOperations = this.operationFiFo.getNumberOfOperations();
   }
 }

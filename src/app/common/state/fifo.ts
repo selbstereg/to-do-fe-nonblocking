@@ -38,17 +38,25 @@ export class OperationFiFo extends FiFo<Operation> {
 
   public add(el: Operation) {
     super.add(el);
-    this.numElementsSubject.next(this.elements.length);
+    this.updateSubscribers();
   }
 
   public popCur(): Operation {
     const operation = super.popCur();
-    this.numElementsSubject.next(this.elements.length);
+    this.updateSubscribers();
     return operation;
   }
 
   public subscribe(callback: (value: number) => void) {
     this.numElementsSubject.subscribe(callback);
+  }
+
+  private updateSubscribers() {
+    this.numElementsSubject.next(this.getNumberOfOperations());
+  }
+
+  public getNumberOfOperations(): number {
+    return this.elements.length;
   }
 }
 
