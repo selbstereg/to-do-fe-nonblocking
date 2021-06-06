@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 
 export interface ToDo {
+  id: string;
   name: string;
 }
 

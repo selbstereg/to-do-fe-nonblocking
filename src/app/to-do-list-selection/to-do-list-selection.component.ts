@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {ToDoListsGet} from '../common/state/operations/to-do-lists-get';
 import {PLACEHOLDER_ADD_NEW_TO_DO_LIST} from '../common/constants';
 import {Synchronizer} from '../common/state/synchronizer.service';
@@ -7,6 +7,7 @@ import {ToDoList} from '../common/state/glob-state';
 import ToDoListAdd from '../common/state/operations/to-do-list-add';
 import {ConfirmationDialogComponent} from '../common/confirmation-dialog/confirmation-dialog.component';
 import ToDoListDelete from '../common/state/operations/to-do-list-delete';
+import {Subscription} from 'rxjs';
 
 
 @Component({
@@ -14,11 +15,12 @@ import ToDoListDelete from '../common/state/operations/to-do-list-delete';
   templateUrl: './to-do-list-selection.component.html',
   styleUrls: ['./to-do-list-selection.component.css']
 })
-export class ToDoListSelectionComponent implements OnInit {
+export class ToDoListSelectionComponent implements OnInit, OnDestroy {
   @Output() selectToDoList = new EventEmitter<ToDoList>();
 
   readonly ITEM_ADDER_PLACEHOLDER = PLACEHOLDER_ADD_NEW_TO_DO_LIST;
   toDoLists: ToDoList[] = [];
+  private globStateSubscription: Subscription;
 
   constructor(
     private synchronizer: Synchronizer,
@@ -30,6 +32,12 @@ export class ToDoListSelectionComponent implements OnInit {
 
   ngOnInit(): void {
     this.fetchToDoLists();
+    this.toDoLists = this.synchronizer.getState();
+    this.globStateSubscription = this.synchronizer.subscribe(toDoLists => this.toDoLists = toDoLists);
+  }
+
+  ngOnDestroy() {
+    this.globStateSubscription.unsubscribe();
   }
 
   fetchToDoLists() {
@@ -38,7 +46,6 @@ export class ToDoListSelectionComponent implements OnInit {
         (toDoLists: ToDoList[]) => this.toDoLists = toDoLists
       )
     );
-    this.toDoLists = this.synchronizer.getState();
   }
 
   onSelect(toDoList: ToDoList) {
@@ -52,7 +59,6 @@ export class ToDoListSelectionComponent implements OnInit {
         (toDoLists: ToDoList[]) => this.toDoLists = toDoLists
       )
     );
-    this.toDoLists = this.synchronizer.getState();
   }
 
   onClickDeleteButton(toDoList: ToDoList) {
@@ -73,6 +79,5 @@ export class ToDoListSelectionComponent implements OnInit {
         (toDoLists: ToDoList[]) => this.toDoLists = toDoLists
       )
     );
-    this.toDoLists = this.synchronizer.getState();
   }
 }

@@ -8,11 +8,14 @@ import {ToDoListsGet} from './operations/to-do-lists-get';
 import {OperationFiFo} from './fifo';
 import {LoggingService} from '../logging/logging.service';
 import {GlobState, StateSnapshot, ToDoList} from './glob-state';
+import {Subject, Subscription} from 'rxjs';
 
 @Injectable()
 export class Synchronizer {
   private requestInProgress = false;
   private syncTimer: DebounceTimer = new DebounceTimer(SYNC_INTERVAL_MS);
+
+  private globStateSubject = new Subject<ToDoList[]>();
 
   constructor(
     private httpClient: HttpClient,
@@ -32,8 +35,9 @@ export class Synchronizer {
   }
 
 
-  public addOperation(toDoListsGet: ToDoListsGet) {
-    this.fiFo.add(toDoListsGet);
+  public addOperation(operation: Operation) {
+    this.fiFo.add(operation);
+    this.globStateSubject.next(this.getState());
     this.sync();
   }
 
@@ -81,5 +85,9 @@ export class Synchronizer {
     const curState = this.globState.copyLastSeenState();
     this.fiFo.forEach(operation => operation.apply(curState));
     return curState.toDoLists;
+  }
+
+  public subscribe(callback: (toDoLists: ToDoList[]) => void): Subscription {
+    return this.globStateSubject.subscribe(callback);
   }
 }

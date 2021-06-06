@@ -1,30 +1,45 @@
-import {Component, OnInit, Input, OnChanges, SimpleChanges} from '@angular/core';
+import {Component, OnInit, Input, OnChanges, SimpleChanges, OnDestroy} from '@angular/core';
 import {faHeart} from '@fortawesome/fontawesome-free-regular';
 import {PLACEHOLDER_ADD_NEW_TO_DO} from '../common/constants';
 import {MatDialog} from '@angular/material';
 import {filter} from 'rxjs/operators';
 import {ToDo, ToDoList} from '../common/state/glob-state';
+import {Synchronizer} from '../common/state/synchronizer.service';
+import ToDoAdd from '../common/state/operations/to-do-add';
+import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'to-do-list-page',
   templateUrl: './to-do-list-page.component.html',
   styleUrls: ['./to-do-list-page.component.css']
 })
-export class ToDoListPageComponent /* implements OnInit, OnChanges */ {
+export class ToDoListPageComponent  implements OnInit/*, OnChanges */, OnDestroy {
 
   @Input() selectedToDoList: ToDoList;
 
   readonly ITEM_ADDER_PLACEHOLDER = PLACEHOLDER_ADD_NEW_TO_DO;
   readonly faHeart = faHeart;
-  // toDos: ToDo[] = [];
+  private globStateSubscription: Subscription;
+  toDos: ToDo[] = [];
 
 
-  // constructor(
+  constructor(
+    private synchronizer: Synchronizer
   //   private dialogService: MatDialog
-  // ) {
+  ) {
   //    this.addToDo = this.addToDo.bind(this);
   //    this.fetchToDos = this.fetchToDos.bind(this);
-  // }
+  }
+
+  ngOnInit(): void {
+    // this.globStateSubscription = this.synchronizer.subscribe(
+    //   lists => this.setToDos(lists)
+    // );
+  }
+
+  ngOnDestroy(): void {
+    this.globStateSubscription.unsubscribe(); // TODO Paul Bauknecht 06 06 2021: check if you forgot cleanup somewhere, e.g. in logging comp
+  }
 
   // ngOnInit(): void {
   //   this.fetchToDos();
@@ -63,14 +78,27 @@ export class ToDoListPageComponent /* implements OnInit, OnChanges */ {
   //   );
   // }
 
-  // addToDo(toDoName: string): void {
-  //   const toDo: ToDo = { name: toDoName, details: '', priority: this.calcHighestPrioPlusOne(), id: null };
-  //   this.toDos.push(toDo);
-  //   this.crudClient.addToDo(this.selectedToDoList.id, toDo).subscribe(
-  //     this.fetchToDos,
-  //     this.fetchToDos
-  //   );
-  // }
+  addToDo(toDoName: string): void {
+    this.synchronizer.addOperation(
+      new ToDoAdd(
+        toDoName,
+        this.selectedToDoList.id,
+        _ => {
+          console.log(_);
+          // do nothing...
+          // const updatedSelectedList = toDoLists.find(list => list.id === this.selectedToDoList.id);
+          // this.
+        }
+      )
+    );
+
+    // const toDo: ToDo = { name: toDoName, details: '', priority: this.calcHighestPrioPlusOne(), id: null };
+    // this.toDos.push(toDo);
+    // this.crudClient.addToDo(this.selectedToDoList.id, toDo).subscribe(
+    //   this.fetchToDos,
+    //   this.fetchToDos
+    // );
+  }
 
 
   // onToDoDeleted(toDoId: number): void {
