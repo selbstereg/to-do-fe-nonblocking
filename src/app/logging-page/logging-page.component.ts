@@ -22,6 +22,7 @@ export class LoggingPageComponent implements OnInit {
     );
   }
 
+
   computeColor(logLevel: LogLvl) {
     switch (logLevel) {
       case LogLvl.WARN: return 'yellow';

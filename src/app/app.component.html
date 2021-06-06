@@ -1,7 +1,4 @@
-<sync-bar
-  (click)="toggleShowToDoList()"
->
-</sync-bar>
+<sync-bar (click)="toggleLoggingPage()"></sync-bar>
 <mat-sidenav-container class="main-container">
   <mat-sidenav class="side-nav-slider" position="end" [(opened)]="sideNavOpened">
     <to-do-list-selection
@@ -17,10 +14,10 @@
       </button>
     </p>
     <to-do-list-page
-      *ngIf="showToDoList && selectedToDoList"
+      *ngIf="selectedToDoList"
       [selectedToDoList]="selectedToDoList"
     ></to-do-list-page>
-    <logging-page *ngIf="!showToDoList"></logging-page>
+    <logging-page *ngIf="showLoggingPage"></logging-page>
   </mat-sidenav-content>
 </mat-sidenav-container>
 
