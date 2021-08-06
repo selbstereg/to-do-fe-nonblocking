@@ -14,7 +14,7 @@ export class ToDoUiComponent {
     // TODO: it is cumbersome, to reach this event up by two components, so it can be
     // submitted to the BE with the to do list id. Check if there is a way to delete
     // the to do from the @OneToMany relation, without knowing the to do list.
-    // @Output() toDoDeleted = new EventEmitter<number>();
+    @Output() toDoDeleted = new EventEmitter<void>();
 
     // constructor(private dialogService: MatDialog) {
     // }
@@ -28,7 +28,7 @@ export class ToDoUiComponent {
     //     });
     // }
     //
-    // deleteToDo(): void {
-    //     this.toDoDeleted.emit();
-    // }
+    deleteToDo(): void {
+        this.toDoDeleted.emit();
+    }
 }

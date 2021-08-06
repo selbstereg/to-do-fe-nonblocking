@@ -7,6 +7,7 @@ import {ToDo, ToDoList} from '../common/state/glob-state';
 import {Synchronizer} from '../common/state/synchronizer.service';
 import ToDoAdd from '../common/state/operations/to-do-add';
 import {Subscription} from 'rxjs';
+import ToDoDelete from '../common/state/operations/to-do-delete';
 
 @Component({
   selector: 'to-do-list-page',
@@ -95,12 +96,14 @@ export class ToDoListPageComponent  implements OnInit/*, OnChanges */, OnDestroy
   }
 
 
-  // onToDoDeleted(toDoId: number): void {
-  //   this.crudClient.deleteToDo(this.selectedToDoList.id, toDoId).subscribe(
-  //     this.fetchToDos,
-  //     this.fetchToDos
-  //   );
-  // }
+  onToDoDeleted(toDoId: string): void {
+    this.synchronizer.addOperation(
+      new ToDoDelete(
+        toDoId,
+        this.selectedToDoList.id
+      )
+    );
+  }
 
   // onPriorizationChanged(updates: PriorityUpdate[]): void {
   //   this.crudClient.updatePriorities(updates).subscribe(

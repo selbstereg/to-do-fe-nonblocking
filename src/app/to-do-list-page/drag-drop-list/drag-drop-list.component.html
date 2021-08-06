@@ -4,6 +4,7 @@
         *ngFor="let toDo of getToDosInReverseOrder()"
 
         [toDo]="toDo"
+        (toDoDeleted)="deleteToDo(toDo)"
 
         class="box-item"
         cdkDrag

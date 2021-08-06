@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import {ToDo} from '../../common/state/glob-state';
 
@@ -17,7 +17,7 @@ export class DragDropListComponent {
   @Input() toDos: ToDo[] = [];
 
   // @Output() prioritizationChanged = new EventEmitter<PriorityUpdate[]>();
-  // @Output() toDoDeleted = new EventEmitter<number>();
+  @Output() toDoDeleted = new EventEmitter<string>();
 
   // prioritizationDebounceTimer = new DebounceTimer(PRIORITIZATION_DEBOUNCE_TIME_IN_MILLIS);
   // isDragging = false;
@@ -64,9 +64,9 @@ export class DragDropListComponent {
   //   }
   // }
 
-  // deleteToDo(toDo: ToDo): void {
-  //   this.toDoDeleted.emit(toDo.id);
-  // }
+  deleteToDo(toDo: ToDo): void {
+    this.toDoDeleted.emit(toDo.id);
+  }
 
   getToDosInReverseOrder(): ToDo[] {
     const toDosCopy = this.toDos.slice();
