@@ -1,3 +1,7 @@
+.marked-to-do {
+  background-color: var(--highlight-color);
+}
+
 .to-do-ui {
     width: 100%;
 }

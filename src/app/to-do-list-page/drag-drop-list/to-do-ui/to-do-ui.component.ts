@@ -16,12 +16,21 @@ export class ToDoUiComponent { // TODO Paul Bauknecht 07 08 2021: Rename to ToDo
 
   @Output() toDoDeleted = new EventEmitter<void>();
 
+  private isMarked = false;
   private longClickTimer = new DebounceTimer(LONG_CLICK_INTERVAL_MS);
   private isLongClicking = false;
 
   constructor(private dialogService: MatDialog) {
     this.onLongClick = this.onLongClick.bind(this);
     this.openEditModal = this.openEditModal.bind(this);
+  }
+
+  onClick() {
+    this.isMarked = !this.isMarked;
+  }
+
+  styleMarked() {
+    return this.isMarked ? 'marked-to-do' : '';
   }
 
   openEditModal() {
