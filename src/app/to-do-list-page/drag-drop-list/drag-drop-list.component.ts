@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import { CdkDragDrop } from '@angular/cdk/drag-drop';
+import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
 import {ToDo} from '../../common/state/glob-state';
 
 // export interface PriorityUpdate {
@@ -16,37 +16,32 @@ export class DragDropListComponent {
 
   @Input() toDos: ToDo[] = [];
 
-  // @Output() prioritizationChanged = new EventEmitter<PriorityUpdate[]>();
   @Output() toDoDeleted = new EventEmitter<string>();
-
-  // prioritizationDebounceTimer = new DebounceTimer(PRIORITIZATION_DEBOUNCE_TIME_IN_MILLIS);
-  // isDragging = false;
-
-  // constructor() {
-  //   this.submitPriorityOrder = this.submitPriorityOrder.bind(this);
-  // }
-
-  // onMouseDown() {
-  //   this.isDragging = true;
-  // }
-  //
-  // onMouseUp() {
-  //   this.isDragging = false;
-  // }
+  // string[] is array of to-do ids
+  @Output() orderChanged = new EventEmitter<string[]>();
 
   drop(event: CdkDragDrop<string[]>): void {
-  //   this.isDragging = false;
-  //   moveItemInArray(
-  //     this.toDos,
-  //     this.mapToReverseOrder(event.previousIndex),
-  //     this.mapToReverseOrder(event.currentIndex)
-  //   );
-  //   this.prioritizationDebounceTimer.stop();
-  //   this.prioritizationDebounceTimer.start(this.submitPriorityOrder);
-  // }
-  //
-  // mapToReverseOrder(index: number): number {
-  //   return this.toDos.length - 1 - index;
+
+    moveItemInArray(
+      this.toDos,
+      this.mapToReverseOrder(event.previousIndex),
+      this.mapToReverseOrder(event.currentIndex)
+    );
+
+    const order: string[] = this.toDos.map(toDo => toDo.id);
+    this.orderChanged.emit(order);
+    //   this.isDragging = false;
+    //   moveItemInArray(
+    //     this.toDos,
+    //     this.mapToReverseOrder(event.previousIndex),
+    //     this.mapToReverseOrder(event.currentIndex)
+    //   );
+    //   this.prioritizationDebounceTimer.stop();
+    //   this.prioritizationDebounceTimer.start(this.submitPriorityOrder);
+  }
+
+  mapToReverseOrder(index: number): number {
+    return this.toDos.length - 1 - index;
   }
 
   // submitPriorityOrder(): void {

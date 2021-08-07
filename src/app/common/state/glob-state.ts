@@ -1,4 +1,5 @@
 import {Injectable} from '@angular/core';
+import deepCopy from '../utils/deep-copy';
 
 export interface ToDo {
   id: string;
@@ -23,13 +24,17 @@ export interface StateSnapshot {
   toDoLists: ToDoList[];
 }
 
+export interface GlobStateMutation {
+  apply: (globState: ToDoLists) => void;
+}
+
+
 @Injectable()
 export class GlobState {
   private lastSeenState: ToDoLists = { toDoLists: [] };
 
   public copyLastSeenState(): ToDoLists {
-    // deep copy
-    return JSON.parse(JSON.stringify(this.lastSeenState));
+    return deepCopy(this.lastSeenState);
   }
 
   setLastSeenState(toDoLists: ToDoList[]) {

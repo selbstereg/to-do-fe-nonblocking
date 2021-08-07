@@ -15,6 +15,7 @@
     <drag-drop-list
         [toDos]="selectedToDoList.toDos"
         (toDoDeleted)="onToDoDeleted($event)"
+        (orderChanged)="onOrderChanged($event)"
     >
     </drag-drop-list>
 </div>

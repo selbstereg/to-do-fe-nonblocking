@@ -8,6 +8,7 @@ import {OperationFiFo} from './fifo';
 import {LoggingService} from '../logging/logging.service';
 import {GlobState, StateSnapshot, ToDoList} from './glob-state';
 import {Subject, Subscription} from 'rxjs';
+import {OrderState} from './order-state';
 
 @Injectable()
 export class Synchronizer {
@@ -20,7 +21,8 @@ export class Synchronizer {
     private httpClient: HttpClient,
     private log: LoggingService,
     private globState: GlobState,
-    private fiFo: OperationFiFo
+    private fiFo: OperationFiFo,
+    private orderState: OrderState
   ) {
     document.addEventListener(
       'visibilitychange',
@@ -82,10 +84,15 @@ export class Synchronizer {
   public getState(): ToDoList[] {
     const curState = this.globState.copyLastSeenState();
     this.fiFo.forEach(operation => operation.apply(curState));
+    this.orderState.apply(curState);
     return curState.toDoLists;
   }
 
   public subscribe(callback: (toDoLists: ToDoList[]) => void): Subscription {
     return this.globStateSubject.subscribe(callback);
+  }
+
+  public memorizeOrder(listId: string, toDoIdOrder: string[]) {
+    this.orderState.memorizeOrder(listId, toDoIdOrder);
   }
 }

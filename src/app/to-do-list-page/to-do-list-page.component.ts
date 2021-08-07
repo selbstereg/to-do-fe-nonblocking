@@ -105,6 +105,9 @@ export class ToDoListPageComponent  implements OnInit/*, OnChanges */, OnDestroy
     );
   }
 
+  onOrderChanged(toDoIdOrder: string[]): void {
+    this.synchronizer.memorizeOrder(this.selectedToDoList.id, toDoIdOrder);
+  }
   // onPriorizationChanged(updates: PriorityUpdate[]): void {
   //   this.crudClient.updatePriorities(updates).subscribe(
   //     this.fetchToDos,
