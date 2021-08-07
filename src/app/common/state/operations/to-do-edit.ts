@@ -9,7 +9,8 @@ export default class ToDoEdit implements Operation {
 
   constructor(
     public toDoId: string,
-    public toDoName: string
+    public toDoName: string,
+    public toDoDetails: string
   ) {
     this.operationId = uuidv4();
   }
@@ -21,6 +22,7 @@ export default class ToDoEdit implements Operation {
 
     if (toDoToEdit) {
       toDoToEdit.name = this.toDoName;
+      toDoToEdit.details = this.toDoDetails;
     }
   }
 

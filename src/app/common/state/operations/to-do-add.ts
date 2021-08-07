@@ -21,7 +21,8 @@ export default class ToDoAdd implements Operation {
       toDoList.toDos.push(
         {
           name: this.toDoName,
-          id: this.toDoId
+          id: this.toDoId,
+          details: ''
         }
       );
     } // TODO Paul Bauknecht 06 06 2021: Can it happen, that the list can't be found?

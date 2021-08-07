@@ -11,6 +11,7 @@ import ToDoEdit from '../../../../common/state/operations/to-do-edit';
 })
 export class ToDoEditorComponent {
 
+  // local state shared between angular components
   toDo: ToDo;
   editedName = '';
   editedDetails = '';
@@ -21,15 +22,20 @@ export class ToDoEditorComponent {
     @Inject(MAT_DIALOG_DATA) private data: any) {
     this.toDo = this.data.toDoToEdit;
     this.editedName = this.toDo.name;
+    this.editedDetails = this.toDo.details;
   }
 
   saveToDo() {
+    // update component state
     this.toDo.name = this.editedName;
-    // this.toDo.description = this.editedDescription
+    this.toDo.details = this.editedDetails;
+
+    // update global state
     this.synchronizer.addOperation(
       new ToDoEdit(
         this.toDo.id,
-        this.toDo.name
+        this.toDo.name,
+        this.toDo.details
       )
     );
     this.dialogRef.close();
