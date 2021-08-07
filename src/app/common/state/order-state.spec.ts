@@ -1,25 +1,6 @@
 import {OrderState} from './order-state';
-import {ToDo, ToDoList} from './glob-state';
-
-function toDoList(id: string, ...toDos: ToDo[]): ToDoList {
-  return {
-    id,
-    name: '', // irrelevant
-    toDos
-  };
-}
-
-function toDo(
-  id: string,
-  name = '',
-  details = ''
-): ToDo {
-  return {
-    id,
-    name,
-    details
-  };
-}
+import {ToDoList} from './glob-state';
+import {toDo, toDoList} from './test-utils';
 
 describe('OrderState', () => {
   it('sorts toDos according to order', () => {
