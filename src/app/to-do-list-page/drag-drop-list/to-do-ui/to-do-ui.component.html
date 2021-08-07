@@ -3,7 +3,12 @@ this is a hack, to make the styling look like it used to before the refactoring,
 the creation of ToDoUiComponent. Make the styling less hacky. -->
 <div
     class="box-item to-do-ui"
-    (click)="onClick()"
+    (mousedown)="onMouseDown()"
+    (touchstart)="onMouseDown()"
+    (mouseup)="onMouseUp()"
+    (touchend)="onMouseUp()"
+    (mousemove)="onMouseMove()"
+    (touchmove)="onMouseMove()"
 >
     {{toDo.name}}
     <delete-button

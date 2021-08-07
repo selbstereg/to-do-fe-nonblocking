@@ -2,6 +2,8 @@ import {Component, Input, Output, EventEmitter} from '@angular/core';
 import {ToDo} from '../../../common/state/glob-state';
 import {MatDialog} from '@angular/material';
 import {ToDoEditorComponent} from './edit-modal/to-do-editor.component';
+import DebounceTimer from '../../../common/utils/debounce-timer';
+import {LONG_CLICK_INTERVAL_MS} from '../../../common/constants';
 
 
 @Component({
@@ -14,16 +16,47 @@ export class ToDoUiComponent { // TODO Paul Bauknecht 07 08 2021: Rename to ToDo
 
   @Output() toDoDeleted = new EventEmitter<void>();
 
+  private longClickTimer = new DebounceTimer(LONG_CLICK_INTERVAL_MS);
+  private isLongClicking = false;
+
   constructor(private dialogService: MatDialog) {
+    this.onLongClick = this.onLongClick.bind(this);
+    this.openEditModal = this.openEditModal.bind(this);
   }
 
-  onClick() {
-      this.dialogService.open(ToDoEditorComponent, {
-          minWidth: 280,
-          data: {
-              toDoToEdit: this.toDo
-          }
-      });
+  openEditModal() {
+    this.dialogService.open(ToDoEditorComponent, {
+      minWidth: 280,
+      data: {
+        toDoToEdit: this.toDo
+      }
+    });
+  }
+
+  onLongClick() {
+    console.log('onLongClick: ' + this.isLongClicking);
+    this.isLongClicking = false;
+    this.openEditModal();
+  }
+
+  onMouseDown() {
+    console.log('onMouseDown: ' + this.isLongClicking);
+    this.isLongClicking = true;
+    this.longClickTimer.start(() => this.onLongClick());
+  }
+
+  onMouseMove() {
+    console.log('onMouseMove: ' + this.isLongClicking);
+    if (this.isLongClicking) {
+      this.longClickTimer.stop();
+      this.longClickTimer.start(() => this.onLongClick());
+    }
+  }
+
+  onMouseUp() {
+    console.log('onMouseUp: ' + this.isLongClicking);
+    this.isLongClicking = false;
+    this.longClickTimer.stop();
   }
 
   deleteToDo(): void {
