@@ -28,6 +28,7 @@ import {SyncBarComponent} from './sync-bar/sync-bar.component';
 import {ToDoUiComponent} from './to-do-list-page/drag-drop-list/to-do-ui/to-do-ui.component';
 import {DragDropListComponent} from './to-do-list-page/drag-drop-list/drag-drop-list.component';
 import {ToDoListPageComponent} from './to-do-list-page/to-do-list-page.component';
+import { ToDoEditorComponent } from './to-do-list-page/drag-drop-list/to-do-ui/edit-modal/to-do-editor.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +42,8 @@ import {ToDoListPageComponent} from './to-do-list-page/to-do-list-page.component
     SyncBarComponent,
     ToDoListPageComponent,
     DragDropListComponent,
-    ToDoUiComponent
+    ToDoUiComponent,
+    ToDoEditorComponent
   ],
   imports: [
     DragDropModule,
@@ -69,7 +71,7 @@ import {ToDoListPageComponent} from './to-do-list-page/to-do-list-page.component
     MatSpinner,
     // FavouriteEinkaufItems,
     ConfirmationDialogComponent,
-    // ToDoEditorComponent
+    ToDoEditorComponent
   ]
 })
 export class AppModule { }

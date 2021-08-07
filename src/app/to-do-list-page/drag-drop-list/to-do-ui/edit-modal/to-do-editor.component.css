@@ -1,0 +1,10 @@
+.name-input {
+  width: 100%;
+  margin-bottom: 1em;
+}
+
+.details-input {
+  width: 100%;
+  box-sizing: border-box;
+  resize: none;
+}
