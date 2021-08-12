@@ -80,6 +80,9 @@ export class ToDoListPageComponent  implements OnInit/*, OnChanges */, OnDestroy
   // }
 
   addToDo(toDoName: string): void {
+    this.onOrderChanged(
+      this.toDos.map(toDo => toDo.id)
+    );
     this.synchronizer.addOperation(
       new ToDoAdd(
         toDoName,
