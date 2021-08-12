@@ -21,7 +21,7 @@ export class ToDoUiComponent { // TODO Paul Bauknecht 07 08 2021: Rename to ToDo
   private longClickTimer = new DebounceTimer(LONG_CLICK_INTERVAL_MS);
   private isLongClicking = false;
 
-  constructor(private dialogService: MatDialog, private log: LoggingService) {
+  constructor(private dialogService: MatDialog) {
     this.onLongClick = this.onLongClick.bind(this);
     this.openEditModal = this.openEditModal.bind(this);
   }
@@ -44,28 +44,20 @@ export class ToDoUiComponent { // TODO Paul Bauknecht 07 08 2021: Rename to ToDo
   }
 
   onLongClick() {
-    console.log('onLongClick: ' + this.isLongClicking);
-    this.log.info('onLongClick: ' + this.isLongClicking);
     this.isLongClicking = false;
     this.openEditModal();
   }
 
   onMouseDown() {
-    console.log('onMouseDown: ' + this.isLongClicking);
-    this.log.info('onMouseDown: ' + this.isLongClicking);
     this.isLongClicking = true;
     this.longClickTimer.start(() => this.onLongClick());
   }
 
   onMouseMove() {
-    console.log('onMouseMove: ' + this.isLongClicking);
-    this.log.info('onMouseMove: ' + this.isLongClicking);
     this.longClickTimer.stop();
   }
 
   onMouseUp() {
-    console.log('onMouseUp: ' + this.isLongClicking);
-    this.log.info('onMouseUp: ' + this.isLongClicking);
     this.isLongClicking = false;
     this.longClickTimer.stop();
   }
