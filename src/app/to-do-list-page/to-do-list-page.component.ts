@@ -5,7 +5,6 @@ import {ToDo, ToDoList} from '../common/state/glob-state';
 import {Synchronizer} from '../common/state/synchronizer.service';
 import ToDoAdd from '../common/state/operations/to-do-add';
 import ToDoDelete from '../common/state/operations/to-do-delete';
-import {LoggingService} from '../common/logging/logging.service';
 import {ToDoListsGet} from '../common/state/operations/to-do-lists-get';
 
 @Component({
@@ -33,6 +32,9 @@ export class ToDoListPageComponent {
         this.selectedToDoList.id
       );
 
+    // TODO: The angular component participates in processing the toDoAdd operation. This is a design flaw.
+    //  The key to mending this is modelling order changes as Operations to put them into a temporal
+    //  relationship with the other Operations.
     const order = [toDoAdd.toDoId].concat(this.getToDos().map(toDo => toDo.id));
     this.onOrderChanged(order);
     this.synchronizer.addOperation(toDoAdd);
