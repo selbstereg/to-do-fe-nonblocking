@@ -6,6 +6,7 @@ import {Synchronizer} from '../common/state/synchronizer.service';
 import ToDoAdd from '../common/state/operations/to-do-add';
 import ToDoDelete from '../common/state/operations/to-do-delete';
 import {LoggingService} from '../common/logging/logging.service';
+import {ToDoListsGet} from '../common/state/operations/to-do-lists-get';
 
 @Component({
   selector: 'to-do-list-page',
@@ -18,26 +19,23 @@ export class ToDoListPageComponent {
 
   readonly ITEM_ADDER_PLACEHOLDER = PLACEHOLDER_ADD_NEW_TO_DO;
   readonly faHeart = faHeart;
-  toDos: ToDo[] = [];
 
 
   constructor(
     private synchronizer: Synchronizer,
-    private log: LoggingService
   ) {
   }
 
   addToDo(toDoName: string): void {
-    this.log.info('addToDo: ' + this.toDos.toString());
-    this.onOrderChanged(
-      this.toDos.map(toDo => toDo.id)
-    );
-    this.synchronizer.addOperation(
+    const toDoAdd =
       new ToDoAdd(
         toDoName,
         this.selectedToDoList.id
-      )
-    );
+      );
+
+    const order = [toDoAdd.toDoId].concat(this.getToDos().map(toDo => toDo.id));
+    this.onOrderChanged(order);
+    this.synchronizer.addOperation(toDoAdd);
   }
 
   onToDoDeleted(toDoId: string): void {
@@ -53,7 +51,12 @@ export class ToDoListPageComponent {
     this.synchronizer.memorizeOrder(this.selectedToDoList.id, toDoIdOrder);
   }
 
+  getToDos(): ToDo[] {
+    return this.selectedToDoList.toDos;
+  }
+
   onRefresh() {
+    this.synchronizer.addOperation(new ToDoListsGet());
   }
 
 }
