@@ -4,13 +4,12 @@
         <button (click)="onRefresh()" class="float-right">
             Aktualisieren
         </button>
-<!--        <button-->
-<!--            *ngIf="toDoListIsEinkaufsliste()"-->
-<!--            class="float-right"-->
-<!--            (click)="openFavouriteEinkaufItemsDialog()"-->
-<!--        >-->
-<!--            <fa-icon [icon]="faHeart"></fa-icon>-->
-<!--        </button>-->
+        <button
+            *ngIf="toDoListIsEinkaufsliste()"
+            class="float-right"
+        >
+            <fa-icon [icon]="faHeart"></fa-icon>
+        </button>
     </div>
     <drag-drop-list
         [toDos]="selectedToDoList.toDos"

@@ -61,4 +61,7 @@ export class ToDoListPageComponent {
     this.synchronizer.addOperation(new ToDoListsGet());
   }
 
+  toDoListIsEinkaufsliste(): boolean {
+    return this.selectedToDoList.name.toUpperCase().includes('EINKAUF');
+  }
 }
