@@ -1,7 +1,7 @@
 
 <div cdkDropList class="example-list" (cdkDropListDropped)="drop($event)">
     <to-do-ui
-        *ngFor="let toDo of getToDosInReverseOrder()"
+        *ngFor="let toDo of toDos"
 
         [toDo]="toDo"
         (toDoDeleted)="deleteToDo(toDo)"

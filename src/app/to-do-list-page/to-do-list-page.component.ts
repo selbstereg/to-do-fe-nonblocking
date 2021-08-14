@@ -24,7 +24,8 @@ export class ToDoListPageComponent {
   constructor(
     private synchronizer: Synchronizer,
     private log: LoggingService
-  ) { }
+  ) {
+  }
 
   addToDo(toDoName: string): void {
     this.log.info('addToDo: ' + this.toDos.toString());
@@ -50,6 +51,9 @@ export class ToDoListPageComponent {
 
   onOrderChanged(toDoIdOrder: string[]): void {
     this.synchronizer.memorizeOrder(this.selectedToDoList.id, toDoIdOrder);
+  }
+
+  onRefresh() {
   }
 
 }
