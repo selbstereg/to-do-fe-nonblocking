@@ -95,4 +95,8 @@ export class Synchronizer {
   public memorizeOrder(listId: string, toDoIdOrder: string[]) {
     this.orderState.memorizeOrder(listId, toDoIdOrder);
   }
+
+  public prependToOrder(listId: string, toDoId: string) {
+    this.orderState.prependToOrder(listId, toDoId);
+  }
 }

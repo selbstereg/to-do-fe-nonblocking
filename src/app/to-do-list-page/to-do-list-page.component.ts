@@ -1,7 +1,7 @@
 import {Component, Input} from '@angular/core';
 import {faHeart} from '@fortawesome/fontawesome-free-regular';
 import {PLACEHOLDER_ADD_NEW_TO_DO} from '../common/constants';
-import {ToDo, ToDoList} from '../common/state/glob-state';
+import {ToDoList} from '../common/state/glob-state';
 import {Synchronizer} from '../common/state/synchronizer.service';
 import ToDoAdd from '../common/state/operations/to-do-add';
 import ToDoDelete from '../common/state/operations/to-do-delete';
@@ -35,8 +35,7 @@ export class ToDoListPageComponent {
     // TODO: The angular component participates in processing the toDoAdd operation. This is a design flaw.
     //  The key to mending this is modelling order changes as Operations to put them into a temporal
     //  relationship with the other Operations.
-    const order = [toDoAdd.toDoId].concat(this.getToDos().map(toDo => toDo.id));
-    this.onOrderChanged(order);
+    this.synchronizer.prependToOrder(this.selectedToDoList.id, toDoAdd.toDoId);
     this.synchronizer.addOperation(toDoAdd);
   }
 
@@ -51,10 +50,6 @@ export class ToDoListPageComponent {
 
   onOrderChanged(toDoIdOrder: string[]): void {
     this.synchronizer.memorizeOrder(this.selectedToDoList.id, toDoIdOrder);
-  }
-
-  getToDos(): ToDo[] {
-    return this.selectedToDoList.toDos;
   }
 
   onRefresh() {

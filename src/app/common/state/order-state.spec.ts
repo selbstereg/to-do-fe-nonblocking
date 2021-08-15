@@ -121,4 +121,33 @@ describe('OrderState', () => {
     expect(sortedToDosOfList2[1].id).toBe('todo3');
     expect(sortedToDosOfList2.length).toBe(2);
   });
+
+
+  it('prepends list id to memorized order', () => {
+    // arrange
+    const orderState = new OrderState();
+    orderState.memorizeOrder('list1', ['todo1', 'todo2']);
+
+    // act
+    orderState.prependToOrder('list1', 'todo0');
+
+    // assert
+    const toDoLists: ToDoList[] = [
+      toDoList(
+        'list1',
+        toDo('todo2'),
+        toDo('todo0'),
+        toDo('todo1')
+      )
+    ];
+
+    orderState.apply({toDoLists});
+
+    const sortedToDos = toDoLists[0].toDos;
+
+    expect(sortedToDos[0].id).toBe('todo0');
+    expect(sortedToDos[1].id).toBe('todo1');
+    expect(sortedToDos[2].id).toBe('todo2');
+    expect(sortedToDos.length).toBe(3);
+  });
 });

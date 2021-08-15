@@ -12,8 +12,18 @@ export class OrderState implements GlobStateMutation {
     this.listIdToItemOrderMap.set(listId, toDoIdOrder);
   }
 
-  public apply(globState: ToDoLists) {
-    globState.toDoLists.forEach(toDoList => {
+  public prependToOrder(listId: string, toDoId: string) {
+    this.listIdToItemOrderMap.get(listId).unshift(toDoId);
+  }
+
+  public apply(globListState: ToDoLists) {
+    this.orderToDoLists(globListState);
+    this.listIdToItemOrderMap.clear();
+    this.memorizeOrderOfAllLists(globListState);
+  }
+
+  private orderToDoLists(globListState: ToDoLists) {
+    globListState.toDoLists.forEach(toDoList => {
       const order = this.listIdToItemOrderMap.get(toDoList.id);
 
       if (order) {
@@ -33,6 +43,15 @@ export class OrderState implements GlobStateMutation {
         // copiedToDos now contains only the leftover to-dos which were not considered in the order
         toDoList.toDos = orderedToDos.concat(copiedToDos);
       }
+    });
+  }
+
+  private memorizeOrderOfAllLists(globListState: ToDoLists) {
+    globListState.toDoLists.forEach(toDoList => {
+      this.listIdToItemOrderMap.set(
+        toDoList.id,
+        toDoList.toDos.map(toDo => toDo.id)
+      );
     });
   }
 }
