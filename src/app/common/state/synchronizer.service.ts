@@ -28,8 +28,10 @@ export class Synchronizer {
       'visibilitychange',
       () => {
         if (document.hidden) {
+          log.info('hidden! stopping timer');
           this.syncTimer.stop();
         } else {
+          log.info('visible! syncing');
           this.sync();
         }
       });
@@ -42,6 +44,7 @@ export class Synchronizer {
   }
 
   private sync() {
+    this.log.info('sync');
     this.syncTimer.stop();
     if (this.fiFo.isNotEmpty() && !this.requestInProgress) {
       const operation = this.fiFo.peekCur();
@@ -77,6 +80,7 @@ export class Synchronizer {
 
   private setSyncTimerIfNotHidden() {
     if (!document.hidden) { // necessary, because response may arrive while ui is hidden
+      this.log.info('starting sync timer');
       this.syncTimer.start(() => this.sync());
     }
   }
