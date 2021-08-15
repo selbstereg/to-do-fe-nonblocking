@@ -41,7 +41,7 @@ export class ToDoListSelectionComponent implements OnInit, OnDestroy {
   }
 
   fetchToDoLists() {
-    this.synchronizer.addOperation(
+    this.synchronizer.addOperations(
       new ToDoListsGet()
     );
   }
@@ -51,7 +51,7 @@ export class ToDoListSelectionComponent implements OnInit, OnDestroy {
   }
 
   onAddToDoList(listName: string) {
-    this.synchronizer.addOperation(
+    this.synchronizer.addOperations(
       new ToDoListAdd(listName)
     );
   }
@@ -68,7 +68,7 @@ export class ToDoListSelectionComponent implements OnInit, OnDestroy {
   }
 
   private deleteToDoList(toDoList: ToDoList) {
-    this.synchronizer.addOperation(
+    this.synchronizer.addOperations(
       new ToDoListDelete(toDoList.id)
     );
   }

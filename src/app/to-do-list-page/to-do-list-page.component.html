@@ -5,8 +5,9 @@
             Aktualisieren
         </button>
         <button
-            *ngIf="toDoListIsEinkaufsliste()"
+            *ngIf="toDoListIsShoppingList()"
             class="float-right"
+            (click)="openShoppingFavouritesDialogue()"
         >
             <fa-icon [icon]="faHeart"></fa-icon>
         </button>

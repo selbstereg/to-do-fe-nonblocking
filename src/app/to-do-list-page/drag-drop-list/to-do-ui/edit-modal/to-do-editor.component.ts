@@ -31,7 +31,7 @@ export class ToDoEditorComponent {
     this.toDo.details = this.editedDetails;
 
     // update global state
-    this.synchronizer.addOperation(
+    this.synchronizer.addOperations(
       new ToDoEdit(
         this.toDo.id,
         this.toDo.name,

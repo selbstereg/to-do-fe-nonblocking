@@ -83,7 +83,7 @@ describe('Synchronizer', () => {
   it('should sync and invoke callback after successful request', done => {
     mockHttpClient.post.mockReturnValue(of(createResponseBody(['list'])));
 
-    synchronizer.addOperation(
+    synchronizer.addOperations(
       new ToDoListsGet(
         (lists) => {
           expect(lists.length).toBe(1);
@@ -101,7 +101,7 @@ describe('Synchronizer', () => {
     );
 
     // first fetch operation
-    synchronizer.addOperation(
+    synchronizer.addOperations(
       new ToDoListsGet(
         (lists) => {
           expect(lists.length).toBe(1);
@@ -111,7 +111,7 @@ describe('Synchronizer', () => {
     );
 
     // second fetch operation
-    synchronizer.addOperation(
+    synchronizer.addOperations(
       new ToDoListsGet(
         (lists) => {
           expect(lists.length).toBe(2);
@@ -136,7 +136,7 @@ describe('Synchronizer', () => {
       );
     });
 
-    synchronizer.addOperation(
+    synchronizer.addOperations(
       new ToDoListsGet(
         (lists) => {
           expect(lists.length).toBe(1);

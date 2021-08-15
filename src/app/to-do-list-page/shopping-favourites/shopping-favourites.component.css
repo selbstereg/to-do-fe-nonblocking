@@ -1,0 +1,7 @@
+.selected-item {
+  background-color: var(--highlight-color);
+}
+
+.list-container {
+  margin-bottom: 16px;
+}

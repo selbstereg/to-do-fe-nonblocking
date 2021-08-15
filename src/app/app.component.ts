@@ -23,7 +23,7 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.synchronizer.addOperation(new ToDoListsGet());
+    this.synchronizer.addOperations(new ToDoListsGet());
     this.selectFirstListIfPresent(this.synchronizer.getState());
     this.synchronizer.subscribe(list => {
         console.log('updating state');

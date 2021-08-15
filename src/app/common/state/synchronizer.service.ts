@@ -35,8 +35,8 @@ export class Synchronizer {
       });
   }
 
-  public addOperation(operation: Operation) {
-    this.fiFo.add(operation);
+  public addOperations(...operations: Operation[]) {
+    operations.reverse().forEach(operation => this.fiFo.add(operation));
     this.updateSubscribers();
     this.sync();
   }

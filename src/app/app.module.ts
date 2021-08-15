@@ -30,6 +30,7 @@ import {DragDropListComponent} from './to-do-list-page/drag-drop-list/drag-drop-
 import {ToDoListPageComponent} from './to-do-list-page/to-do-list-page.component';
 import {ToDoEditorComponent} from './to-do-list-page/drag-drop-list/to-do-ui/edit-modal/to-do-editor.component';
 import {OrderState} from './common/state/order-state';
+import {ShoppingFavouritesComponent} from './to-do-list-page/shopping-favourites/shopping-favourites.component';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,8 @@ import {OrderState} from './common/state/order-state';
     ToDoListPageComponent,
     DragDropListComponent,
     ToDoUiComponent,
-    ToDoEditorComponent
+    ToDoEditorComponent,
+    ShoppingFavouritesComponent
   ],
   imports: [
     DragDropModule,
@@ -71,7 +73,7 @@ import {OrderState} from './common/state/order-state';
   bootstrap: [
     AppComponent,
     MatSpinner,
-    // FavouriteEinkaufItems,
+    ShoppingFavouritesComponent,
     ConfirmationDialogComponent,
     ToDoEditorComponent
   ]
