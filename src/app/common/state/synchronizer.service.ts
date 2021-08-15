@@ -61,6 +61,9 @@ export class Synchronizer {
         (snapshot: StateSnapshot) => {
           this.fiFo.popCur();
           this.requestInProgress = false;
+
+          this.log.info('received BE state');
+
           this.globState.setLastSeenState(snapshot.toDoLists);
           this.updateSubscribers();
           this.sync();
