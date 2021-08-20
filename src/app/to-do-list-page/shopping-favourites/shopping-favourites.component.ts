@@ -14,7 +14,9 @@ export class ShoppingFavouritesComponent {
     'Brot',
     'Brotaufstrich',
     'Klopapier',
+    'Margarine',
     'Milch',
+    'Mineralwasser',
     'Pfandflaschen zurückgeben',
     'Shampoo',
     'Sojajoghurt'
