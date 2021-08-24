@@ -19,7 +19,8 @@ export default class ToDoListAdd implements Operation {
       {
         name: this.listName,
         id: this.listId,
-        toDos: []
+        toDos: [],
+        hasNewToDos: false
       }
     );
   }

@@ -4,7 +4,8 @@ export function toDoList(id: string, ...toDos: ToDo[]): ToDoList {
   return {
     id,
     name: '', // irrelevant
-    toDos
+    toDos,
+    hasNewToDos: false
   };
 }
 

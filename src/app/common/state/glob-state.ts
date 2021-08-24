@@ -11,6 +11,7 @@ export interface ToDoList {
   id: string;
   name: string;
   toDos: ToDo[];
+  hasNewToDos: boolean;
 }
 
 // The app state as maintained by the app

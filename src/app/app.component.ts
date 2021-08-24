@@ -26,7 +26,6 @@ export class AppComponent implements OnInit {
     this.synchronizer.addOperations(new ToDoListsGet());
     this.selectFirstListIfPresent(this.synchronizer.getState());
     this.synchronizer.subscribe(list => {
-        console.log('updating state');
         this.updateSelectedToDoListState(list);
       }
     ); // Component is never destroyed. No unsubscribe necessary.
@@ -45,7 +44,7 @@ export class AppComponent implements OnInit {
     const toDoList: ToDoList =
       toDoLists.length
         ? toDoLists[0]
-        : {name: 'Keine Listen gefunden', id: null, toDos: []};
+        : {name: 'Keine Listen gefunden', id: null, toDos: [], hasNewToDos: false};
     this.setSelectedToDoList(toDoList);
   }
 

@@ -39,7 +39,7 @@ export class Synchronizer {
 
   public addOperations(...operations: Operation[]) {
     operations.reverse().forEach(operation => this.fiFo.add(operation));
-    this.updateSubscribers();
+    this.updateSubscribers(this.getState());
     this.sync();
   }
 
@@ -59,13 +59,17 @@ export class Synchronizer {
       .pipe(take(1))
       .subscribe(
         (snapshot: StateSnapshot) => {
+          this.log.info('received BE state');
+
+          const oldToDoLists = this.getState();
+          this.setNewToDosFlags(snapshot.toDoLists, oldToDoLists);
+
+          this.globState.setLastSeenState(snapshot.toDoLists);
+
           this.fiFo.popCur();
           this.requestInProgress = false;
 
-          this.log.info('received BE state');
-
-          this.globState.setLastSeenState(snapshot.toDoLists);
-          this.updateSubscribers();
+          this.updateSubscribers(this.getState());
           this.sync();
         },
         (err) => {
@@ -77,8 +81,28 @@ export class Synchronizer {
     ;
   }
 
-  private updateSubscribers() {
-    this.globStateSubject.next(this.getState());
+  private setNewToDosFlags(beToDoLists: ToDoList[], feToDoLists: ToDoList[]) {
+    beToDoLists.forEach(beList => {
+      const matchingFeList = feToDoLists.filter(feList => feList.id === beList.id)[0];
+      if (matchingFeList) {
+        beList.hasNewToDos = matchingFeList.hasNewToDos || this.feListMissesToDosInBeList(matchingFeList, beList);
+      }
+
+      this.log.info(`${beList.name} hasNewToDos: ${beList.hasNewToDos}`);
+    });
+  }
+
+  private feListMissesToDosInBeList(feList: ToDoList, beList: ToDoList) {
+    this.log.info(`beList: ${beList}`);
+    this.log.info(`feList: ${feList}`);
+    const beToDosNotInFeList = beList.toDos.filter(beToDo => !feList.toDos.map(toDo => toDo.id).includes(beToDo.id));
+    this.log.info(`beToDosNotInFeList: ${beToDosNotInFeList.map(toDo => toDo.name)}`);
+    this.log.info(`beToDosNotInFeList.length !== 0 = ${beToDosNotInFeList.length !== 0}`);
+    return beToDosNotInFeList.length !== 0;
+  }
+
+  private updateSubscribers(state: ToDoList[]) {
+    this.globStateSubject.next(state);
   }
 
   private setSyncTimerIfNotHidden() {
