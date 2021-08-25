@@ -1,4 +1,9 @@
 
+.scroll-button {
+  border-radius: 50%;
+  background-color: greenyellow;
+}
+
 .button-panel {
   padding-top: 8px;
   padding-bottom: 16px;

@@ -130,4 +130,9 @@ export class Synchronizer {
   public prependToOrder(listId: string, toDoId: string) {
     this.orderState.prependToOrder(listId, toDoId);
   }
+
+  setHasNewToDosFalse(listId: string) {
+    this.globState.setHasNewToDosFalse(listId);
+    this.updateSubscribers(this.getState());
+  }
 }

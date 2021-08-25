@@ -41,4 +41,10 @@ export class GlobState {
   setLastSeenState(toDoLists: ToDoList[]) {
     this.lastSeenState.toDoLists = toDoLists;
   }
+
+  setHasNewToDosFalse(listId: string) {
+    this.lastSeenState.toDoLists
+      .filter(list => list.id === listId)
+      .forEach(list => list.hasNewToDos = false);
+  }
 }

@@ -11,6 +11,13 @@
         >
             <fa-icon [icon]="faHeart"></fa-icon>
         </button>
+        <button
+            *ngIf="selectedToDoList.hasNewToDos"
+            class="float-right scroll-button"
+            (click)="scrollToBottom()"
+        >
+            <fa-icon [icon]="faAngleDoubleDown"></fa-icon>
+        </button>
     </div>
     <drag-drop-list
         [toDos]="selectedToDoList.toDos"

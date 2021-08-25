@@ -9,6 +9,7 @@ import {ToDoListsGet} from '../common/state/operations/to-do-lists-get';
 import {MatDialog} from '@angular/material';
 import {ShoppingFavouritesComponent} from './shopping-favourites/shopping-favourites.component';
 import {filter} from 'rxjs/operators';
+import {faAngleDoubleDown} from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'to-do-list-page',
@@ -21,6 +22,7 @@ export class ToDoListPageComponent {
 
   readonly ITEM_ADDER_PLACEHOLDER = PLACEHOLDER_ADD_NEW_TO_DO;
   readonly faHeart = faHeart;
+  readonly faAngleDoubleDown = faAngleDoubleDown;
 
 
   constructor(
@@ -83,5 +85,10 @@ export class ToDoListPageComponent {
 
   getListId(): string {
     return this.selectedToDoList.id;
+  }
+
+  scrollToBottom() {
+    window.scrollTo(0, document.body.scrollHeight);
+    this.synchronizer.setHasNewToDosFalse(this.selectedToDoList.id);
   }
 }
