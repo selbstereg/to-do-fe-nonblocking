@@ -51,6 +51,9 @@ export class LoggingService {
   private add(entry: LogEntry) {
     this.logs.unshift(entry);
     this.logsSubject.next(this.logs);
+    if (this.logs.length > 1000) {
+      this.logs.pop();
+    }
   }
 
 }
