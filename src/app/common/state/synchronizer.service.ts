@@ -28,10 +28,8 @@ export class Synchronizer {
       'visibilitychange',
       () => {
         if (document.hidden) {
-          log.info('hidden! stopping timer');
           this.syncTimer.stop();
         } else {
-          log.info('visible! syncing');
           this.sync();
         }
       });
@@ -44,7 +42,6 @@ export class Synchronizer {
   }
 
   private sync() {
-    this.log.info('sync');
     this.syncTimer.stop();
     if (this.fiFo.isNotEmpty() && !this.requestInProgress) {
       const operation = this.fiFo.peekCur();
@@ -59,8 +56,6 @@ export class Synchronizer {
       .pipe(take(1))
       .subscribe(
         (snapshot: StateSnapshot) => {
-          this.log.info('received BE state');
-
           const oldToDoLists = this.getState();
           this.setNewToDosFlags(snapshot.toDoLists, oldToDoLists);
 
@@ -87,17 +82,11 @@ export class Synchronizer {
       if (matchingFeList) {
         beList.hasNewToDos = matchingFeList.hasNewToDos || this.feListMissesToDosInBeList(matchingFeList, beList);
       }
-
-      this.log.info(`${beList.name} hasNewToDos: ${beList.hasNewToDos}`);
     });
   }
 
   private feListMissesToDosInBeList(feList: ToDoList, beList: ToDoList) {
-    this.log.info(`beList: ${beList}`);
-    this.log.info(`feList: ${feList}`);
     const beToDosNotInFeList = beList.toDos.filter(beToDo => !feList.toDos.map(toDo => toDo.id).includes(beToDo.id));
-    this.log.info(`beToDosNotInFeList: ${beToDosNotInFeList.map(toDo => toDo.name)}`);
-    this.log.info(`beToDosNotInFeList.length !== 0 = ${beToDosNotInFeList.length !== 0}`);
     return beToDosNotInFeList.length !== 0;
   }
 
@@ -107,7 +96,6 @@ export class Synchronizer {
 
   private setSyncTimerIfNotHidden() {
     if (!document.hidden) { // necessary, because response may arrive while ui is hidden
-      this.log.info('starting sync timer');
       this.syncTimer.start(() => this.sync());
     }
   }
