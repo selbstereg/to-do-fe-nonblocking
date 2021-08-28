@@ -1,4 +1,4 @@
-import {Component, Output, EventEmitter, Input} from '@angular/core';
+import {Component, Output, EventEmitter, Input, ViewChild, ElementRef} from '@angular/core';
 
 @Component({
   selector: 'item-adder',
@@ -6,18 +6,17 @@ import {Component, Output, EventEmitter, Input} from '@angular/core';
   styleUrls: ['./item-adder.component.css']
 })
 export class ItemAdderComponent {
+  // not using ngModel here because of bug where old text spontaneously appears again some time after item was added
+  @ViewChild('input', {static: false}) input: ElementRef;
   @Input() placeholder = '';
   @Output() addItem = new EventEmitter<string>();
-  input: string;
-  isInputEmpty = true;
 
   onAddItem() {
-    this.addItem.emit(this.input);
-    this.input = '';
-    this.isInputEmpty = true;
+    const inputText: string = this.input.nativeElement.value;
+    if (inputText) {
+      this.addItem.emit(this.input.nativeElement.value);
+    }
+    this.input.nativeElement.value = '';
   }
 
-  onInputChange(input: string) {
-    this.isInputEmpty = input.length === 0;
-  }
 }
