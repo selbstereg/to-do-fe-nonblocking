@@ -56,9 +56,7 @@ export class Synchronizer {
       .pipe(take(1))
       .subscribe(
         (snapshot: StateSnapshot) => {
-          const oldToDoLists = this.getState();
-          this.setNewToDosFlags(snapshot.toDoLists, oldToDoLists);
-
+          this.setNewToDosFlags(snapshot.toDoLists); // needs to be done before setLastSeenState. Should be part of the method
           this.globState.setLastSeenState(snapshot.toDoLists);
 
           this.fiFo.popCur();
@@ -76,9 +74,13 @@ export class Synchronizer {
     ;
   }
 
-  private setNewToDosFlags(beToDoLists: ToDoList[], feToDoLists: ToDoList[]) {
+  private setNewToDosFlags(beToDoLists: ToDoList[]) {
+    const oldState = this.globState.copyLastSeenState();
+    const toDoAddOperations = this.fiFo.getToDoAddOperations();
+    toDoAddOperations.forEach(operation => operation.apply(oldState));
+
     beToDoLists.forEach(beList => {
-      const matchingFeList = feToDoLists.filter(feList => feList.id === beList.id)[0];
+      const matchingFeList = oldState.toDoLists.filter(feList => feList.id === beList.id)[0];
       if (matchingFeList) {
         beList.hasNewToDos = matchingFeList.hasNewToDos || this.feListMissesToDosInBeList(matchingFeList, beList);
       }

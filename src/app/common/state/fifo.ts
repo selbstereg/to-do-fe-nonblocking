@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Operation} from './operations/operation';
 import {Subject} from 'rxjs';
+import ToDoAdd from './operations/to-do-add';
 
 
 class FiFo<E> {
@@ -57,6 +58,10 @@ export class OperationFiFo extends FiFo<Operation> {
 
   public getNumberOfOperations(): number {
     return this.elements.length;
+  }
+
+  public getToDoAddOperations(): ToDoAdd[] {
+    return this.elements.filter(operation => operation instanceof ToDoAdd)as ToDoAdd[];
   }
 }
 

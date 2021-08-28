@@ -6,6 +6,7 @@ import {HttpClient} from '@angular/common/http';
 import {LoggingService} from '../logging/logging.service';
 import {GlobState, StateSnapshot, ToDoList} from './glob-state';
 
+// TODO Paul Bauknecht: If you will write angular tests, there is angular testing library (should be analog to react testing library :))
 // Mock uuid/v4 because it otherwise leads to type errors
 jest.mock('uuid/v4', () => { // TODO Paul Bauknecht 02 05 2021: maybe move this into a __mocks__ folder beneath node_modules
   let count = 0;
