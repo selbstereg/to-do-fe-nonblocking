@@ -11,7 +11,7 @@ import {MatSidenavModule} from '@angular/material/sidenav';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {ToDoListSelectionComponent} from './to-do-list-selection/to-do-list-selection.component';
 import {ItemAdderComponent} from './common/item-adder/item-adder.component';
-import {StopClickPropagation} from './common/stop-click-propagation';
+import {StopMouseEventPropagationDirective} from './common/stop-click-propagation';
 import {DeleteButtonComponent} from './common/delete-button/delete-button.component';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatSpinner, MatDialogModule} from '@angular/material';
@@ -37,7 +37,7 @@ import {ShoppingFavouritesComponent} from './to-do-list-page/shopping-favourites
     AppComponent,
     ToDoListSelectionComponent,
     ItemAdderComponent,
-    StopClickPropagation,
+    StopMouseEventPropagationDirective,
     DeleteButtonComponent,
     ConfirmationDialogComponent,
     LoggingPageComponent,
