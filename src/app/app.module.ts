@@ -31,6 +31,7 @@ import {ToDoListPageComponent} from './to-do-list-page/to-do-list-page.component
 import {ToDoEditorComponent} from './to-do-list-page/drag-drop-list/to-do-ui/edit-modal/to-do-editor.component';
 import {OrderState} from './common/state/order-state';
 import {ShoppingFavouritesComponent} from './to-do-list-page/shopping-favourites/shopping-favourites.component';
+import {LocalStorageService} from './common/state/local-storage.service';
 
 @NgModule({
   declarations: [
@@ -66,6 +67,7 @@ import {ShoppingFavouritesComponent} from './to-do-list-page/shopping-favourites
     Synchronizer,
     ErrorHandler,
     LoggingService,
+    LocalStorageService,
     GlobState,
     OperationFiFo,
     OrderState

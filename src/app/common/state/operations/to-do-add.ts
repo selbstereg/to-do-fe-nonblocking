@@ -1,18 +1,26 @@
-import {Operation} from './operation';
+import {OperationBase} from './operation';
 import uuidv4 from 'uuid/v4';
 import {ToDoLists} from '../glob-state';
 
-export default class ToDoAdd implements Operation {
+export default class ToDoAdd extends OperationBase {
   public endpoint = '/to-dos/add';
-  public operationId: string;
-  public toDoId: string;
 
   constructor(
     public toDoName: string,
-    public listId: string
+    public listId: string,
+    public operationId = uuidv4(),
+    public toDoId = uuidv4()
   ) {
-    this.operationId = uuidv4();
-    this.toDoId = uuidv4();
+    super();
+  }
+
+  public static fromObject(obj: any): ToDoAdd {
+    return new ToDoAdd(
+      obj.toDoName,
+      obj.listId,
+      obj.operationId,
+      obj.toDoId
+    );
   }
 
   public apply = (globState: ToDoLists) => {

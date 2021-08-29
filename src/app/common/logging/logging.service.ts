@@ -1,5 +1,6 @@
 import {Subject} from 'rxjs';
 import {Injectable} from '@angular/core';
+import {environment} from '../../../environments/environment';
 
 
 export enum LogLvl {
@@ -16,9 +17,7 @@ export interface LogEntry {
 
 @Injectable()
 export class LoggingService {
-
   logsSubject = new Subject<LogEntry[]>();
-
   logs: LogEntry[] = [];
 
   public subscribe(callback: (logs: LogEntry[]) => void) {
@@ -41,6 +40,10 @@ export class LoggingService {
   }
 
   private createEntry(message: string, level: LogLvl): LogEntry {
+    if (environment.logToConsole) {
+      console.log(message);
+    }
+
     return {
       level,
       message,

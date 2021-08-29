@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {Operation} from './operations/operation';
 import {Subject} from 'rxjs';
 import ToDoAdd from './operations/to-do-add';
+import {LocalStorageService} from './local-storage.service';
 
 
 class FiFo<E> {
@@ -37,23 +38,31 @@ export class OperationFiFo extends FiFo<Operation> {
 
   private numElementsSubject = new Subject<number>();
 
+  constructor(private storage: LocalStorageService) {
+    super();
+    if (storage.operationInstances) {
+      this.elements = storage.operationInstances;
+    }
+  }
+
   public add(el: Operation) {
     super.add(el);
-    this.updateSubscribers();
+    this.onStateChange();
   }
 
   public popCur(): Operation {
     const operation = super.popCur();
-    this.updateSubscribers();
+    this.onStateChange();
     return operation;
+  }
+
+  public onStateChange() {
+    this.storage.saveOperations(this.elements);
+    this.numElementsSubject.next(this.getNumberOfOperations());
   }
 
   public subscribe(callback: (value: number) => void) {
     this.numElementsSubject.subscribe(callback);
-  }
-
-  private updateSubscribers() {
-    this.numElementsSubject.next(this.getNumberOfOperations());
   }
 
   public getNumberOfOperations(): number {
@@ -61,7 +70,7 @@ export class OperationFiFo extends FiFo<Operation> {
   }
 
   public getToDoAddOperations(): ToDoAdd[] {
-    return this.elements.filter(operation => operation instanceof ToDoAdd)as ToDoAdd[];
+    return this.elements.filter(operation => operation instanceof ToDoAdd) as ToDoAdd[];
   }
 }
 
