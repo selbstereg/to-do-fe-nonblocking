@@ -1,4 +1,4 @@
-import {GlobStateMutation, ToDoLists} from '../glob-state';
+import {GlobStateMutation, ToDoLists} from '../to-do-list-state/glob-state';
 
 export interface Operation extends GlobStateMutation {
   endpoint: string;

@@ -1,7 +1,7 @@
 import {Component, Input} from '@angular/core';
 import {faHeart} from '@fortawesome/fontawesome-free-regular';
 import {PLACEHOLDER_ADD_NEW_TO_DO} from '../common/constants';
-import {ToDoList} from '../common/state/glob-state';
+import {ToDoList} from '../common/state/to-do-list-state/glob-state';
 import {Synchronizer} from '../common/state/synchronizer.service';
 import ToDoAdd from '../common/state/operations/to-do-add';
 import ToDoDelete from '../common/state/operations/to-do-delete';

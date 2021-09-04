@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {OperationFiFo} from '../common/state/fifo';
+import {OperationFiFo} from '../common/state/operations/operation-fifo';
 
 @Component({
   selector: 'sync-bar',

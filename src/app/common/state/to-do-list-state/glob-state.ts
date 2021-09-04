@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import deepCopy from '../utils/deep-copy';
+import deepCopy from '../../utils/deep-copy';
 import {ToDoListStorageService} from './to-do-list-storage.service';
 
 export interface ToDo {

@@ -1,4 +1,4 @@
-import {ToDo, ToDoList} from './glob-state';
+import {ToDo, ToDoList} from './to-do-list-state/glob-state';
 
 export function toDoList(id: string, ...toDos: ToDo[]): ToDoList {
   return {

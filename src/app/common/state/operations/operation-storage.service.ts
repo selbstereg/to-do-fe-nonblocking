@@ -1,12 +1,12 @@
 import {Injectable} from '@angular/core';
-import {LoggingService} from '../logging/logging.service';
-import {Operation} from './operations/operation';
-import ToDoAdd from './operations/to-do-add';
-import {ToDoListsGet} from './operations/to-do-lists-get';
-import ToDoDelete from './operations/to-do-delete';
-import ToDoEdit from './operations/to-do-edit';
-import ToDoListAdd from './operations/to-do-list-add';
-import ToDoListDelete from './operations/to-do-list-delete';
+import {LoggingService} from '../../logging/logging.service';
+import {Operation} from './operation';
+import ToDoAdd from './to-do-add';
+import {ToDoListsGet} from './to-do-lists-get';
+import ToDoDelete from './to-do-delete';
+import ToDoEdit from './to-do-edit';
+import ToDoListAdd from './to-do-list-add';
+import ToDoListDelete from './to-do-list-delete';
 
 @Injectable()
 export class OperationStorageService {

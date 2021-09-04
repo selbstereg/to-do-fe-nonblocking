@@ -1,11 +1,11 @@
 import {Injectable} from '@angular/core';
-import {Operation} from './operations/operation';
+import {Operation} from './operation';
 import {Subject} from 'rxjs';
-import ToDoAdd from './operations/to-do-add';
 import {OperationStorageService} from './operation-storage.service';
+import ToDoAdd from './to-do-add';
 
 
-class FiFo<E> {
+class OperationFifo<E> {
   protected elements: E[] = [];
 
   public add(el: E) {
@@ -34,7 +34,7 @@ class FiFo<E> {
 }
 
 @Injectable()
-export class OperationFiFo extends FiFo<Operation> {
+export class OperationFiFo extends OperationFifo<Operation> {
 
   private numElementsSubject = new Subject<number>();
 

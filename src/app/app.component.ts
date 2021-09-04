@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {faBars} from '@fortawesome/free-solid-svg-icons';
 import {ToDoListsGet} from './common/state/operations/to-do-lists-get';
 import {Synchronizer} from './common/state/synchronizer.service';
-import {ToDoList} from './common/state/glob-state';
+import {ToDoList} from './common/state/to-do-list-state/glob-state';
 
 @Component({
   selector: 'app-root',

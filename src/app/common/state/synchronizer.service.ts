@@ -4,11 +4,11 @@ import {API_URL, SYNC_INTERVAL_MS} from '../constants';
 import {take} from 'rxjs/operators';
 import DebounceTimer from '../utils/debounce-timer';
 import {Operation} from './operations/operation';
-import {OperationFiFo} from './fifo';
+import {OperationFiFo} from './operations/operation-fifo';
 import {LoggingService} from '../logging/logging.service';
-import {GlobState, StateSnapshot, ToDoList} from './glob-state';
+import {GlobState, StateSnapshot, ToDoList} from './to-do-list-state/glob-state';
 import {Subject, Subscription} from 'rxjs';
-import {OrderState} from './order-state';
+import {OrderState} from './order/order-state';
 
 @Injectable()
 export class Synchronizer {

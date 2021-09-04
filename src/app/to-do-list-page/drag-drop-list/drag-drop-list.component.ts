@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
-import {ToDo} from '../../common/state/glob-state';
+import {ToDo} from '../../common/state/to-do-list-state/glob-state';
 
 @Component({
   selector: 'drag-drop-list',

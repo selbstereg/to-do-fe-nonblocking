@@ -1,7 +1,7 @@
 import {Component, Inject} from '@angular/core';
 import {MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 import {Synchronizer} from '../../../../common/state/synchronizer.service';
-import {ToDo} from '../../../../common/state/glob-state';
+import {ToDo} from '../../../../common/state/to-do-list-state/glob-state';
 import ToDoEdit from '../../../../common/state/operations/to-do-edit';
 
 @Component({

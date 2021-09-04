@@ -1,5 +1,5 @@
 import {Component, Input, Output, EventEmitter} from '@angular/core';
-import {ToDo} from '../../../common/state/glob-state';
+import {ToDo} from '../../../common/state/to-do-list-state/glob-state';
 import {MatDialog} from '@angular/material';
 import {ToDoEditorComponent} from './edit-modal/to-do-editor.component';
 import DebounceTimer from '../../../common/utils/debounce-timer';

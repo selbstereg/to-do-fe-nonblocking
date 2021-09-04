@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {LoggingService} from '../logging/logging.service';
+import {LoggingService} from '../../logging/logging.service';
 
 @Injectable()
 export class OrderStorageService {

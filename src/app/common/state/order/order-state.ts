@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
-import {GlobStateMutation, ToDoLists} from './glob-state';
-import deepCopy from '../utils/deep-copy';
+import {GlobStateMutation, ToDoLists} from '../to-do-list-state/glob-state';
+import deepCopy from '../../utils/deep-copy';
 import {OrderStorageService} from './order-storage.service';
 
 // TODO Paul Bauknecht 07 08 2021: should be part of globState or globState should be renamed

@@ -1,6 +1,6 @@
 import {OrderState} from './order-state';
-import {ToDoList} from './glob-state';
-import {toDo, toDoList} from './test-utils';
+import {ToDoList} from '../to-do-list-state/glob-state';
+import {toDo, toDoList} from '../test-utils';
 
 describe('OrderState', () => {
   it('sorts toDos according to order', () => {

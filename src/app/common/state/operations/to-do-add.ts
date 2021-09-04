@@ -1,6 +1,6 @@
 import {OperationBase} from './operation';
 import uuidv4 from 'uuid/v4';
-import {ToDoLists} from '../glob-state';
+import {ToDoLists} from '../to-do-list-state/glob-state';
 
 export default class ToDoAdd extends OperationBase {
   public endpoint = '/to-dos/add';

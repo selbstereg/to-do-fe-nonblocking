@@ -22,18 +22,18 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {ErrorHandler} from './common/error/error-handler.service';
 import {LoggingPageComponent} from './logging-page/logging-page.component';
 import {LoggingService} from './common/logging/logging.service';
-import {GlobState} from './common/state/glob-state';
-import {OperationFiFo} from './common/state/fifo';
+import {GlobState} from './common/state/to-do-list-state/glob-state';
+import {OperationFiFo} from './common/state/operations/operation-fifo';
 import {SyncBarComponent} from './sync-bar/sync-bar.component';
 import {ToDoUiComponent} from './to-do-list-page/drag-drop-list/to-do-ui/to-do-ui.component';
 import {DragDropListComponent} from './to-do-list-page/drag-drop-list/drag-drop-list.component';
 import {ToDoListPageComponent} from './to-do-list-page/to-do-list-page.component';
 import {ToDoEditorComponent} from './to-do-list-page/drag-drop-list/to-do-ui/edit-modal/to-do-editor.component';
-import {OrderState} from './common/state/order-state';
+import {OrderState} from './common/state/order/order-state';
 import {ShoppingFavouritesComponent} from './to-do-list-page/shopping-favourites/shopping-favourites.component';
-import {OperationStorageService} from './common/state/operation-storage.service';
-import {ToDoListStorageService} from './common/state/to-do-list-storage.service';
-import {OrderStorageService} from './common/state/order-storage.service';
+import {OperationStorageService} from './common/state/operations/operation-storage.service';
+import {ToDoListStorageService} from './common/state/to-do-list-state/to-do-list-storage.service';
+import {OrderStorageService} from './common/state/order/order-storage.service';
 
 @NgModule({
   declarations: [
