@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {Operation} from './operations/operation';
 import {Subject} from 'rxjs';
 import ToDoAdd from './operations/to-do-add';
-import {LocalStorageService} from './local-storage.service';
+import {OperationStorageService} from './operation-storage.service';
 
 
 class FiFo<E> {
@@ -38,7 +38,7 @@ export class OperationFiFo extends FiFo<Operation> {
 
   private numElementsSubject = new Subject<number>();
 
-  constructor(private storage: LocalStorageService) {
+  constructor(private storage: OperationStorageService) {
     super();
     if (storage.operationInstances) {
       this.elements = storage.operationInstances;

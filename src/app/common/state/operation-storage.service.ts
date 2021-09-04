@@ -9,7 +9,7 @@ import ToDoListAdd from './operations/to-do-list-add';
 import ToDoListDelete from './operations/to-do-list-delete';
 
 @Injectable()
-export class LocalStorageService {
+export class OperationStorageService {
   private readonly operationsKey = 'operations';
   private operationGenerators = {
     [ToDoAdd.name]: (obj) => ToDoAdd.fromObject(obj),
@@ -23,7 +23,7 @@ export class LocalStorageService {
   public operationInstances: Operation[];
 
   constructor(private log: LoggingService) {
-    log.warn('loading state from local storage');
+    log.warn('loading operations from local storage');
     const operations: string = window.localStorage.getItem(this.operationsKey);
     log.info('loaded operations: ' + operations);
     if (operations) {

@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
 import deepCopy from '../utils/deep-copy';
+import {ToDoListStorageService} from './to-do-list-storage.service';
 
 export interface ToDo {
   id: string;
@@ -32,7 +33,13 @@ export interface GlobStateMutation {
 
 @Injectable()
 export class GlobState {
-  private lastSeenState: ToDoLists = { toDoLists: [] };
+  private lastSeenState: ToDoLists = {toDoLists: []};
+
+  constructor(private storage: ToDoListStorageService) {
+    if (storage.toDoLists) {
+      this.lastSeenState = { toDoLists: storage.toDoLists };
+    }
+  }
 
   public copyLastSeenState(): ToDoLists {
     return deepCopy(this.lastSeenState);
@@ -40,11 +47,13 @@ export class GlobState {
 
   setLastSeenState(toDoLists: ToDoList[]) {
     this.lastSeenState.toDoLists = toDoLists;
+    this.storage.saveToDoLists(toDoLists);
   }
 
   setHasNewToDosFalse(listId: string) {
     this.lastSeenState.toDoLists
       .filter(list => list.id === listId)
       .forEach(list => list.hasNewToDos = false);
+    this.storage.saveToDoLists(this.lastSeenState.toDoLists);
   }
 }
