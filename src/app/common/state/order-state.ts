@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {GlobStateMutation, ToDoLists} from './glob-state';
 import deepCopy from '../utils/deep-copy';
+import {OrderStorageService} from './order-storage.service';
 
 // TODO Paul Bauknecht 07 08 2021: should be part of globState or globState should be renamed
 @Injectable()
@@ -8,21 +9,34 @@ export class OrderState implements GlobStateMutation {
   // the value (type string[]) is an array of the to-do ids
   private listIdToItemOrderMap = new Map<string, string[]>();
 
+  constructor(private storage: OrderStorageService) {
+    if (storage.listIdToItemOrderMap) {
+      this.listIdToItemOrderMap = storage.listIdToItemOrderMap;
+    }
+  }
+
   public memorizeOrder(listId: string, toDoIdOrder: string[]) {
     this.listIdToItemOrderMap.set(listId, toDoIdOrder);
+    this.onStateChange();
   }
 
   public prependToOrder(listId: string, toDoId: string) {
     this.listIdToItemOrderMap.get(listId).unshift(toDoId);
+    this.onStateChange();
   }
 
   public apply(globListState: ToDoLists) {
-    this.orderToDoLists(globListState);
+    this.putToDosIntoOrder(globListState);
     this.listIdToItemOrderMap.clear();
     this.memorizeOrderOfAllLists(globListState);
+    this.onStateChange();
   }
 
-  private orderToDoLists(globListState: ToDoLists) {
+  private onStateChange() {
+    this.storage.saveOrderState(this.listIdToItemOrderMap);
+  }
+
+  private putToDosIntoOrder(globListState: ToDoLists) {
     globListState.toDoLists.forEach(toDoList => {
       const order = this.listIdToItemOrderMap.get(toDoList.id);
 

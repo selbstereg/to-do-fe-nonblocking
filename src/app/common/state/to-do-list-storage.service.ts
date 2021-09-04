@@ -18,7 +18,6 @@ export class ToDoListStorageService {
   }
 
   saveToDoLists(toDoLists: ToDoList[]) {
-    this.log.info('saving to do lists');
     window.localStorage.setItem(this.toDoListsKey, JSON.stringify(toDoLists));
   }
 }

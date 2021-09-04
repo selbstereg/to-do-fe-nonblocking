@@ -33,6 +33,7 @@ import {OrderState} from './common/state/order-state';
 import {ShoppingFavouritesComponent} from './to-do-list-page/shopping-favourites/shopping-favourites.component';
 import {OperationStorageService} from './common/state/operation-storage.service';
 import {ToDoListStorageService} from './common/state/to-do-list-storage.service';
+import {OrderStorageService} from './common/state/order-storage.service';
 
 @NgModule({
   declarations: [
@@ -70,6 +71,7 @@ import {ToDoListStorageService} from './common/state/to-do-list-storage.service'
     LoggingService,
     OperationStorageService,
     ToDoListStorageService,
+    OrderStorageService,
     GlobState,
     OperationFiFo,
     OrderState
