@@ -1,5 +1,4 @@
 import {Injectable} from '@angular/core';
-import {LoggingService} from '../../logging/logging.service';
 import {Operation} from './operation';
 import ToDoAdd from './to-do-add';
 import {ToDoListsGet} from './to-do-lists-get';
@@ -22,10 +21,8 @@ export class OperationStorageService {
 
   public operationInstances: Operation[];
 
-  constructor(private log: LoggingService) {
-    log.warn('loading operations from local storage');
+  constructor() {
     const operations: string = window.localStorage.getItem(this.operationsKey);
-    log.info('loaded operations: ' + operations);
     if (operations) {
       const operationObjects: any[] = JSON.parse(operations);
       this.operationInstances = operationObjects.map(obj => this.operationGenerators[obj.type](obj));

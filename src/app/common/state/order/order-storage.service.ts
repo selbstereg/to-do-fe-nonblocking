@@ -1,5 +1,4 @@
 import {Injectable} from '@angular/core';
-import {LoggingService} from '../../logging/logging.service';
 
 @Injectable()
 export class OrderStorageService {
@@ -7,12 +6,10 @@ export class OrderStorageService {
 
   public listIdToItemOrderMap: Map<string, string[]>;
 
-  constructor(private log: LoggingService) {
-    log.warn('loading order state from local storage');
+  constructor() {
     const orderStateAsJson: string = window.localStorage.getItem(this.orderStateKey);
     if (orderStateAsJson) {
       const orderStateAsArray: [string, string[]][] = JSON.parse(orderStateAsJson);
-      log.info('loaded order state: ' + orderStateAsJson); // TODO Paul Bauknecht 04 09 2021: Remove debug logging
       this.listIdToItemOrderMap = new Map(orderStateAsArray);
     }
   }
