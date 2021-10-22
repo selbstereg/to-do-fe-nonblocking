@@ -1,12 +1,13 @@
 <div>
-    <button (click)="onAddItem()" class="float-right">
+    <button (click)="onAddItem()" class="float-right" [disabled]="isInputEmpty">
         +
     </button>
     <span class="wide-input-span">
         <input
-            #input
             [placeholder]="placeholder"
+            [(ngModel)]="input"
             class="wide-input"
+            (ngModelChange)="onInputChange($event)"
         >
     </span>
 </div>

@@ -1,4 +1,4 @@
-import {Component, Output, EventEmitter, Input, ViewChild, ElementRef, OnInit, OnChanges, SimpleChanges} from '@angular/core';
+import {Component, Output, EventEmitter, Input, OnInit, OnChanges, SimpleChanges} from '@angular/core';
 import {LoggingService} from '../logging/logging.service';
 
 @Component({
@@ -7,29 +7,33 @@ import {LoggingService} from '../logging/logging.service';
   styleUrls: ['./item-adder.component.css']
 })
 export class ItemAdderComponent implements OnInit, OnChanges {
-  // not using ngModel here because of bug where old text spontaneously appears again some time after item was added
-  @ViewChild('input', {static: false}) input: ElementRef;
   @Input() placeholder = '';
   @Output() addItem = new EventEmitter<string>();
+  input: string;
+  isInputEmpty = true;
 
   constructor(private log: LoggingService) {
+    log.info(`ItemAdder construcotr - input=${this.input}`);
   }
 
   onAddItem() {
-    const inputText: string = this.input.nativeElement.value;
-    if (inputText) {
-      this.addItem.emit(this.input.nativeElement.value);
-    }
-    this.input.nativeElement.value = '';
+    this.addItem.emit(this.input);
+    this.input = '';
+    this.isInputEmpty = true;
   }
+
+  onInputChange(input: string) {
+    this.isInputEmpty = input.length === 0;
+  }
+
 
   ngOnChanges(changes: SimpleChanges): void {
     this.log.info(`ItemAdder onChanges - changes=${JSON.stringify(changes)}`);
-    this.log.info(`ItemAdder onChanges - input=${this.input.nativeElement.value}`);
+    this.log.info(`ItemAdder onChanges - input=${this.input}`);
   }
 
   ngOnInit(): void {
-    this.log.info(`ItemAdder onInit - input=${this.input.nativeElement.value}`);
+    this.log.info(`ItemAdder onInit - input=${this.input}`);
   }
 
 }
