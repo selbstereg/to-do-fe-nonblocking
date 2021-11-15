@@ -11,3 +11,8 @@
   overflow: hidden;
   padding-right: 10px;
 }
+
+input.ng-dirty.ng-invalid {
+  border-color: red;
+  background-color: lightcoral;
+}

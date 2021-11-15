@@ -1,13 +1,15 @@
 <div>
-    <button (click)="onAddItem()" class="float-right" [disabled]="isInputEmpty">
-        +
+  <form [formGroup]="itemAdderForm" (ngSubmit)="onSubmit()">
+    <button type="submit" class="float-right" [disabled]="itemAdderForm.invalid">
+      +
     </button>
     <span class="wide-input-span">
-        <input
-            [placeholder]="placeholder"
-            [(ngModel)]="input"
-            class="wide-input"
-            (ngModelChange)="onInputChange($event)"
-        >
+      <input
+        type="text"
+        class="wide-input"
+        formControlName="inputField"
+        [placeholder]="placeholder"
+      >
     </span>
+  </form>
 </div>

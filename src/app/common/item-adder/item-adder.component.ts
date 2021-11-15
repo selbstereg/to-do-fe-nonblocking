@@ -1,39 +1,37 @@
-import {Component, Output, EventEmitter, Input, OnInit, OnChanges, SimpleChanges} from '@angular/core';
-import {LoggingService} from '../logging/logging.service';
+import {Component, Output, EventEmitter, Input, OnInit} from '@angular/core';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
+
+const MAX_NUM_CHARACTERS = 245;
 
 @Component({
   selector: 'item-adder',
   templateUrl: './item-adder.component.html',
   styleUrls: ['./item-adder.component.css']
 })
-export class ItemAdderComponent implements OnInit, OnChanges {
+export class ItemAdderComponent implements OnInit {
   @Input() placeholder = '';
   @Output() addItem = new EventEmitter<string>();
   input: string;
-  isInputEmpty = true;
 
-  constructor(private log: LoggingService) {
-    log.info(`ItemAdder construcotr - input=${this.input}`);
-  }
+  itemAdderForm: FormGroup;
 
-  onAddItem() {
-    this.addItem.emit(this.input);
-    this.input = '';
-    this.isInputEmpty = true;
-  }
-
-  onInputChange(input: string) {
-    this.isInputEmpty = input.length === 0;
-  }
-
-
-  ngOnChanges(changes: SimpleChanges): void {
-    this.log.info(`ItemAdder onChanges - changes=${JSON.stringify(changes)}`);
-    this.log.info(`ItemAdder onChanges - input=${this.input}`);
+  constructor() {
   }
 
   ngOnInit(): void {
-    this.log.info(`ItemAdder onInit - input=${this.input}`);
+    this.itemAdderForm = new FormGroup({
+      inputField: new FormControl(
+        '',
+        [
+          Validators.maxLength(MAX_NUM_CHARACTERS),
+          Validators.required
+        ]
+      )
+    });
   }
 
+  onSubmit() {
+    this.addItem.emit(this.itemAdderForm.controls.inputField.value);
+    this.itemAdderForm.reset();
+  }
 }
