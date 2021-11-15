@@ -65,6 +65,7 @@ button + button {
   cursor: move;
   background: white;
   font-size: 14px;
+  overflow-wrap: anywhere;
 }
 
 .box-item + .box-item {
