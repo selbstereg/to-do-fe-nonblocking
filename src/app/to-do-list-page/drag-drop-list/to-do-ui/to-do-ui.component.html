@@ -5,12 +5,6 @@ the creation of ToDoUiComponent. Make the styling less hacky. -->
     class="box-item to-do-ui"
     [ngClass]="styleMarked()"
     (click)="onClick()"
-    (mousedown)="onMouseDown()"
-    (touchstart)="onMouseDown()"
-    (mouseup)="onMouseUp()"
-    (touchend)="onMouseUp()"
-    (mousemove)="onMouseMove()"
-    (touchmove)="onMouseMove()"
 >
     {{toDo.name}}
     <delete-button
