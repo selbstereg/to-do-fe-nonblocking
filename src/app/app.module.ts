@@ -26,10 +26,10 @@ import {LoggingService} from './common/logging/logging.service';
 import {GlobState} from './common/state/to-do-list-state/glob-state';
 import {OperationFiFo} from './common/state/operations/operation-fifo';
 import {SyncBarComponent} from './sync-bar/sync-bar.component';
-import {ToDoUiComponent} from './to-do-list-page/drag-drop-list/to-do-ui/to-do-ui.component';
+import {ToDoItemComponent} from './to-do-list-page/drag-drop-list/to-do-item/to-do-item.component';
 import {DragDropListComponent} from './to-do-list-page/drag-drop-list/drag-drop-list.component';
 import {ToDoListPageComponent} from './to-do-list-page/to-do-list-page.component';
-import {ToDoEditorComponent} from './to-do-list-page/drag-drop-list/to-do-ui/edit-modal/to-do-editor.component';
+import {ToDoEditorComponent} from './to-do-list-page/drag-drop-list/to-do-item/edit-modal/to-do-editor.component';
 import {OrderState} from './common/state/order/order-state';
 import {ShoppingFavouritesComponent} from './to-do-list-page/shopping-favourites/shopping-favourites.component';
 import {OperationStorageService} from './common/state/operations/operation-storage.service';
@@ -48,7 +48,7 @@ import {OrderStorageService} from './common/state/order/order-storage.service';
     SyncBarComponent,
     ToDoListPageComponent,
     DragDropListComponent,
-    ToDoUiComponent,
+    ToDoItemComponent,
     ToDoEditorComponent,
     ShoppingFavouritesComponent
   ],

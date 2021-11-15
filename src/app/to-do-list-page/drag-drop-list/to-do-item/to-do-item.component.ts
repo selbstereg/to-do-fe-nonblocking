@@ -8,10 +8,10 @@ import {LONG_CLICK_INTERVAL_MS} from '../../../common/constants';
 
 @Component({
   selector: 'to-do-ui',
-  templateUrl: './to-do-ui.component.html',
-  styleUrls: ['./to-do-ui.component.css']
+  templateUrl: './to-do-item.component.html',
+  styleUrls: ['./to-do-item.component.css']
 })
-export class ToDoUiComponent { // TODO Paul Bauknecht 07 08 2021: Rename to ToDoItemComponent
+export class ToDoItemComponent {
   @Input() toDo: ToDo;
 
   @Output() toDoDeleted = new EventEmitter<void>();
