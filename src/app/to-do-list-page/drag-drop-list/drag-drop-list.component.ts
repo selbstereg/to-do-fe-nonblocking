@@ -15,6 +15,8 @@ export class DragDropListComponent {
   @Output() orderChanged = new EventEmitter<string[]>();
 
   drop(event: CdkDragDrop<string[]>): void {
+    // TODO Paul Bauknecht 15 11 2021: drag is no longer possible if list is updated during ongoing drag. Should be fixed in newer version:
+    //  https://github.com/angular/components/issues/18628 (workaround proposed here does not work!!!)
     moveItemInArray(
       this.toDos,
       event.previousIndex,
