@@ -67,7 +67,12 @@ export class Synchronizer {
         },
         (err) => {
           this.requestInProgress = false;
-          this.log.error(`${err.status} - ${err.message}`);
+          if (err) {
+            this.log.error(`${err.status} - ${err.message}`);
+          } else {
+            // TODO Paul Bauknecht 16 11 2021: This may be useless
+            this.log.error('Request returned with error.');
+          }
           this.setSyncTimerIfNotHidden();
         }
       )
