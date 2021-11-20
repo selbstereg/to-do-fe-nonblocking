@@ -1,5 +1,5 @@
 <div>
-  <form [formGroup]="itemAdderForm" (ngSubmit)="onSubmit()">
+  <form [formGroup]="itemAdderForm" (ngSubmit)="onSubmit()" autocomplete="off">
     <button type="submit" class="float-right" [disabled]="itemAdderForm.invalid">
       +
     </button>
@@ -8,6 +8,7 @@
         type="text"
         class="wide-input"
         formControlName="inputField"
+        autocomplete="off"
         [placeholder]="placeholder"
       >
     </span>
